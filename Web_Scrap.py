@@ -1357,7 +1357,7 @@ def main():
     st.set_page_config(page_title="Property Market Analysis", layout="wide")
     st.title("🏡 Property Market Analysis")
     st.markdown("### Analyze property prices and land rates in Egypt")
-    source_options = ["Dubizzle", "SMSARKO", "Aqarmap"]
+    source_options = ["Dubizzle", "Aqarmap", "SMSARKO"]
     selected_source = st.radio("Select Data Source:", source_options)
 
     if selected_source == "Dubizzle":
@@ -1527,6 +1527,10 @@ def main():
                     else:
                         st.warning("No Dubizzle assets found for the selected criteria.")
 
+
+
+
+
     elif selected_source == "SMSARKO":
         # ------------------ SMSARKO SECTION ------------------
         st.subheader("SMSARKO Scraping Settings")
@@ -1601,6 +1605,8 @@ def main():
                     else:
                         st.warning("No SMSARKO assets found for the selected criteria.")
 
+
+
     elif selected_source == "Aqarmap":
         st.subheader("Aqarmap Scraping Settings")
 
@@ -1617,7 +1623,6 @@ def main():
         aqarmap_selected_governorate = st.selectbox("🌍 Select Aqarmap governorate:", list(aqarmap_governorates.keys()))
 
         aqarmap_selected_city = st.selectbox("🏙️ Select Aqarmap city:", aqarmap_governorates[aqarmap_selected_governorate])
-#https://aqarmap.com.eg/en/for-sale/land-or-farm/cairo/el-marg/
         aqarmap_governorate_slug = aqarmap_selected_governorate.lower().replace(" ", "-")
         aqarmap_city_slug = aqarmap_selected_city.lower().replace(" ", "-")
         base_url = f"https://aqarmap.com.eg/en/for-sale/{aqarmap_property_value}/{aqarmap_governorate_slug}/{aqarmap_city_slug}/"
@@ -1661,6 +1666,7 @@ def main():
                         st.session_state["aqarmap_asset_sub"] = aqarmap_default_sub
                         st.session_state["aqarmap_property_value"] = aqarmap_property_value
 
+
         if "aqarmap_report_df" in st.session_state:
             if st.button("🔄 Update Asset Values (Aqarmap)"):
                 with st.spinner("Updating Aqarmap assets in database..."):
@@ -1687,12 +1693,10 @@ def main():
                             st.error("❌ Failed to update Aqarmap assets")
                     else:
                         st.warning("No Aqarmap assets found for the selected criteria.")
-# In your main() function (or wherever appropriate), add the button:
 
-    # Set BASE_PATH to your desired directory
+
+
     BASE_PATH = r"C:\Users\edge-t\Desktop\Edge Pro\cama_web_scrappin\housing sf"
-
-    # ... [previous code remains unchanged]
 
     st.markdown("---")
     st.subheader("Final Report Generation")
