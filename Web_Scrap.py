@@ -11,38 +11,300 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from io import BytesIO
-from datetime import date, datetime
+from datetime import date
 
 
 arabic_names = {
     "Alexandria": "محافظه الاسكندريه",
-    "sidi-gaber": "سيدي جابر",
-    "manshiyya": "قسم المنشيه",
-    "moharam-bik": "قسم محرم بك",
-    "dekheila": "قسم الدخيله",
-    "Aswan": "محافظة أسوان",
+    "Attarin": "قسم العطارين",
+    "Borg al-Arab": "قسم برج العرب",
+    "New Borg al-Arab": "مدينه برج العرب الجديده",
+    "Dekheila": "قسم الدخيله",
+    "Gomrok": "قسم الجمرك",
+    "Karmous": "قسم كرموز",
+    "Labban": "قسم اللبان",
+    "Manshiyya": "قسم المنشيه",
+    "Mina El Basal": "قسم مينا البصل",
+    "Moharam Bik": "قسم محرم بك",
+    "Montazah": "قسم اول المنتزه",
+    "Raml Station ": "قسم اول الرمل",
+    "Sidi Gaber": "قسم سيدى جابر",
+
+    "Beni Suef": "محافظه بني سويف",
+    "Al Feshn": "مركز الفشن",
+    "Al Wasty": "مركز الواسطى",
+    "Beba": "مركز ببا",
+    "Beni Suef City": "مركز بنى سويف",
+    "Ehnasia": "مركز اهناسيا",
+    "Nasser": "مركز ناصر",
+    "New Beni Suef": "قسم مدينه بنى سويف الجديده",
+    "Samasta": "مركز سمسطا",
+
     "Cairo": "محافظه القاهره",
-    "badr-city": "قسم بدر",
+    "15 May City": "قسم 15 مايو",
+    "Ain Shams": "قسم عين شمس",
+    "Al Amiriyyah": "قسم الاميريه",
+    "Bab al-Shereia": "قسم باب الشعريه",
+    "Badr City": "قسم بدر",
+    "Basateen": "قسم البساتين",
+    "Boulaq Abo El Ela": "قسم بولاق",
+    "Dar al-Salaam": "قسم دار السلام",
+    "Darb al-Ahmar": "قسم الدرب الاحمر",
+    "Gamaleya": "قسم الجماليه",
+    "Hadayek al-Kobba": "قسم حدائق القبه",
+    "Helwan": "قسم حلوان",
+    "Ma'sara": "قسم المعصره",
+    "Maadi": "قسم المعادى",
+    "Marg": "قسم المرج",
+    "Masr al-Kadema": "قسم مصر القديمه",
+    "Matareya": "قسم المطريه",
+    "Mokattam": "قسم المقطم",
+    "Nasr City ": "قسم اول مدينه نصر",
+    "New Cairo ": "قسم اول القاهره الجديده",
+    "Qasr al-Nil": "قسم قصر النيل",
+    "Rod al-Farag": "قسم روض الفرج",
+    "Salam City ": "قسم اول السلام",
+    "Sayeda Zeinab": "قسم السيده زينب",
+    "Sharabeya": "قسم الشرابيه",
+    "Shorouk City": "قسم الشروق",
+    "Shubra": "قسم شبرا",
+    "Tebeen": "قسم التبين",
+    "Tura": "قسم طره",
+    "Waili": "قسم الوايلى",
+    "Zamalek": "قسم الزمالك",
+    "Zawya al-Hamra": "قسم الزاويه الحمراء",
+    "New Valley": "محافظه الوادي الجديد",
+    "Balat": "مركز بلاط",
+    "Dakhla": "مركز الداخله",
+    "Farafra": "مركز الفرافره",
+    "Kharga": "قسم الخارجه",
+    "Paris": "مركز باريس",
+
+    "Luxor": "محافظه الاقصر",
+    "Armant": "مركز ارمنت",
+    "Isna": "مركز اسنا",
+    "Luxor City": "قسم الاقصر",
+    "Luxor Center": "مركز الاقصر",
+    "Qurna": "مركز القرنه",
+    "Gharbia": "محافظه الغربيه",
+    "Basyoun": "مركز بسيون",
+    "Kafr al-Zayat": "مركز كفر الزيات",
+    "Mahalla al-Kobra": "قسم اول المحله الكبرى",
+    "Mahalla al-Kobra Center": "مركز المحله الكبرى",
+    "Qutour": "مركز قطور",
+    "Samanoud": "مركز سمنود",
+    "Santa": "مركز السنطه",
+
+    "Fayoum": "محافظه الفيوم",
+    "Atssa": "مركز اطسا",
+    "Fayoum City": "قسم اول الفيوم",
+    "Fayoum Center": "مركز الفيوم",
+    "Ibshway": "مركز ابشواى",
+    "New Fayoum": "مدينه الفيوم الجديده",
+    "Sinnuras": "مركز سنورس",
+    "Tamiya": "مركز طاميه",
+    "Yusuf al-Sadiq": "مركز يوسف الصديق",
+
+    "Beheira": "محافظه البحيره",
+    "Abou Homs": "مركز ابو حمص",
+    "Abuu al-Matamer": "مركز ابو المطامير",
+    "Al Nubariyah": "قسم غرب النوباريه",
+    "Damanhour": "قسم دمنهور",
+    "Damanhour Center": "مركز دمنهور",
+    "Delengat": "مركز الدلنجات",
+    "Edko": "مركز ادكو",
+    "Etay al-Barud": "مركز ايتاى البارود",
+    "Hosh Essa": "مركز حوش عيسى",
+    "Kafr al-Dawwar": "قسم كفر الدوار",
+    "Kafr al-Dawwar Center": "مركز كفر الدوار",
+    "Kom Hamadah": "مركز كوم حماده",
+    "Mahmoudiyah": "مركز المحموديه",
+    "Markaz Badr": "مركز بدر",
+    "Rahmaniya": "مركز الرحمانيه",
+    "Rashid": "مركز رشيد",
+    "Shubrakhit": "مركز شبراخيت",
+    "Wadi al-Natrun": "مركز وادى النطرون",
+    "Kafr al-Sheikh": "محافظه كفر الشيخ",
+    "Bella": "قسم بيلا",
+    "Bella Center": "مركز بيلا",
+    "Brolos": "مركز البرلس",
+    "Desouk": "مركز دسوق",
+    "Fouh": "مركز فوه",
+    "Hamoul": "مركز الحامول",
+    "Kafr al-Sheikh City ": "قسم اول كفر الشيخ",
+    "Kafr al-Sheikh Center": "مركز كفر الشيخ",
+    "Motobas": "مركز مطوبس",
+    "Qaleen": "مركز قلين",
+    "Riyadh": "مركز الرياض",
+    "Sidi Salem": "مركز سيدى سالم",
+
+    "Matruh": "محافظه مطروح",
+    "Alamein": "قسم العلمين",
+    "Barany": "قسم سيدى برانى",
+    "Dabaa": "قسم الضبعه",
+    "Hammam": "قسم الحمام",
+    "Marsa Matrouh": "قسم مرسي مطروح",
+    "Nagela": "قسم النجيله",
+    "North Coast": "قسم الساحل الشمالى",
+    "Salloum": "قسم السلوم",
+    "Siwa": "قسم سيوه",
+
+    "Ismailia": "محافظه الاسماعيليه",
+    "Abu Swear": "مركز ابوصوير",
+    "Fayed": "مركز فايد",
+    "Ismailia City 1": "قسم اول",
+    "Ismailia City 2": "قسم ثان",
+    "Kantara East": "مركز القنطره شرق",
+    "Kantara West": "مركز القنطره غرب",
+    "Qassaseen": "مركز القصاصين الجديده",
+    "Tal al-Kebeer": "مركز التل الكبير",
+
+    "Giza": "محافظه الجيزه",
+    "6th of October ": "قسم اول 6 اكتوبر",
+    "6th of October 2": "قسم ثان 6 اكتوير",
+    "6th of October 3": "قسم ثالث 6 اكتوبر",
+    "6th of October 4": "قسم رابع 6 اكتوبر",
+    "Agouza": "قسم العجوزه",
+    "Badrasheen": "مركز البدرشين",
+    "Boulaq Dakrour": "قسم بولاق الدكرور",
+    "Dokki": "قسم الدقى",
+    "El Ayyat": "مركز العياط",
+    "Giza District": "قسم الجيزه",
+    "Hawamdeya": "قسم الحوامديه",
+    "Imbaba": "قسم امبابه",
+    "Kerdasa": "مركز كرداسه",
+    "Oseem": "مركز اوسيم",
+    "Saf": "مركز الصف",
+    "Sheikh Zayed": "قسم الشيخ زايد",
+    "Warraq": "قسم الوراق",
+
+    "Asyut": "محافظه اسيوط",
+    "Qusiya": "مركز القوصيه",
+    "Sahel Selim": "مركز ساحل سليم",
+    "Sedfa": "مركز صدفا",
+
+    "Aswan": "محافظه اسوان",
+    "Abou Simbel": "مركز ابو سمبل",
+    "Daraw": "مركز دراو",
+    "Edfu": "مركز ادفو",
+    "Kom Ombo": "مركز كوم امبو",
+    "Nasr al-Noba": "مركز نصر النوبه",
+
+    "Damietta": "محافظه دمياط",
+    "Fareskour": "مركز فارسكور",
+    "Kafr al-Bateekh": "مركز كفر البطيخ",
+    "Kafr Saad": "مركز كفر سعد",
+    "New Damietta": "قسم مدينه دمياط الجديدة",
+    "Ras al-Bar": "قسم راس البر",
+    "Saro": "قسم السرو",
+    "Zarqa": "مركز الزرقا",
+
+    "Qalyubia": "محافظه القليوبيه",
+    "Banha": "مركز بنها",
+    "Kafr Shukr": "مركز كفر شكر",
+    "Khanka": "قسم الخانكه",
+    "Khosous": "قسم الخصوص",
+    "Qaha": "قسم قها",
+    "Qalyub": "قسم قليوب",
+    "Qanater al-Khairia": "مركز القناطر الخيريه",
+    "Shebin al-Qanater": "مركز شبين القناطر",
+    "Shubra al-Khaimah": "قسم اول شبرا الخيمه",
+    "Tookh": "مركز طوخ",
+
+    "Qena": "محافظه قنا",
+    "Abu Tisht": "مركز ابو تشت",
+    "Dishna": "مركز دشنا",
+    "Farshout": "مركز فرشوط",
+    "Nag Hammadi": "مركز نجع حمادى",
+    "Nakada": "مركز نقاده",
+    "Quos": "مركز قوص",
+    "Wakf": "مركز الوقف",
+
     "Sharqia": "محافظه الشرقيه",
-    "abu-talat": "أبو تلات",
-    "agami": "العجمي",
-    "al-hadrah": "الحضرة",
-    "abu-qir": "أبو قير",
-    "abou-al-reish": "أبو الريش",
-    "abou-simbel": "أبو سمبل",
-    "aswan-city": "مدينة أسوان",
-    "basiliah": "بصيلية",
-    "15-may-city": "مايو",
-    "abasiya": "العباسية",
-    "ain-shams": "عين شمس",
-    "hadayek-al-kobba": "حدائق القبه",
-    "zagazig": "مركز الزقازيق",
-    "10th-of-ramadan": "اول العاشر من رمضان",
-    "deyerb-negm": "مركز ديرب نجم",
-    "hihya": "مركز ههيا",
-    "kafr-saqr": "مركز كفر صقر",
-    "alqnayat": "القنايات",
-    "Properties": "عقارات",
+    "10th of Ramadan": "العاشر من رمضان",
+    "Abu Hammad": "مركز ابو حماد",
+    "Abu Kabir": "مركز ابو كبير",
+    "Alqnayat": "مدينة القنايات",
+    "Awlad Saqr": "مركز اولاد صقر",
+    "Bilbeis": "مركز بلبيس",
+    "Deyerb Negm": "مركز ديرب نجم",
+    "Faqous": "مركز فاقوس",
+    "Hihya": "مركز ههيا",
+    "Husseiniya": "مركز الحسينيه",
+    "Ibrahemyah": "مركز الابراهيمية",
+    "Kafr Saqr": "مركز كفر صقر",
+    "Mashtool al-Souk": "مركز مشتول السوق",
+    "Minya al-Qamh": "مركز منيا القمح",
+    "Qareen": "مدينة القرين",
+    "Zagazig": "مركز الزقازيق",
+
+    "Port Said": "محافظه بورسعيد",
+    "Arab District": "قسم العرب",
+    "Dawahy District": "قسم الضواحى",
+    "Ganoub District": "قسم الجنوب",
+    "Manakh District": "قسم المناخ",
+    "Port Fouad": "قسم بورفؤاد",
+    "Sharq District": "قسم الشرق",
+    "Zohour District": "قسم الزهور",
+
+    "Minya": "محافظه المنيا",
+    "Abu Qurqas": "مركز ابو قرقاص",
+    "Adwa": "مركز العدوه",
+    "Beni Mazar": "مركز بنى مزار",
+    "Deir Mawas": "مركز دير مواس",
+    "Maghagha": "مركز مغاغه",
+    "Malawi": "قسم ملوى",
+    "Matay": "مركز مطاى",
+    "New Minya": "قسم المنيا الجديده",
+    "Samalut": "مركز سمالوط",
+
+    "Monufia": "محافظه المنوفيه",
+    "Ashmon": "مركز اشمون",
+    "Bagour": "مركز الباجور",
+    "Berket al-Sabaa": "مركز بركه السبع",
+    "Menouf": "قسم مدينه منوف",
+    "Quesna": "مركز قويسنا",
+    "Sadat": "مركز ومدينه السادات",
+    "Sers al-Lyan": "قسم سرس الليان",
+    "Shebin al-Koum": "قسم شبين الكوم",
+    "Shohadaa": "مركز الشهداء",
+    "Tala": "مركز تلا",
+
+    "Suez": "محافظه السويس",
+    "Arbaeen": "قسم الاربعين",
+    "Attaka": "قسم عتاقه",
+    "Faisal District": "قسم فيصل",
+    "Ganayen": "قسم الجناين",
+    "Suez District": "قسم السويس",
+
+    "South Sinai": "محافظه جنوب سيناء",
+    "Abu Rudeis": "قسم ابورديس",
+    "Abu Zenimah": "قسم ابوزنيمه",
+    "Dahab": "قسم دهب",
+    "Nuweiba": "قسم نويبع",
+    "Ras Sedr": "قسم راس سدر",
+    "Sharm al-Sheikh": "قسم شرم الشيخ",
+    "St. Catherine": "قسم سانت كاترين",
+    "Taba": "قسم طابا",
+    "Tor Sinai": "قسم الطور",
+
+    "Sohag": "محافظه سوهاج",
+    "Akhmim": "مركز اخميم",
+    "Alasirat": "مركز العسيرات",
+    "Baliana": "مركز البلينا",
+    "Girga": "مركز جرجا",
+    "Maragha": "مركز المراغه",
+    "Markaz Dar El Salam": "مركز دار السلام",
+    "Markaz Juhaynah": "مركز جهينه",
+    "Markaz Sohag": "مركز سوهاج",
+    "Monsha'a": "مركز المنشاه",
+    "New Sohag": "مدينه سوهاج الجديده",
+    "Sakaltah": "مركز ساقلته",
+    "Tahta": "مركز طهطا",
+    "Tama": "مركز طما",
+
+
+"Properties": "عقارات",
     "Lands": "أراضي",
     "monufia": "محافظه المنوفيه",
     "menouf": "مركز منوف",
@@ -54,11 +316,11 @@ arabic_names = {
     "Commercial Properties": "عقارات",
     "Residential Properties": "عقارات",
     "Residential Apartments": "عقارات",
-    "Nasr City":"قسم مدينه نصر ",
-    "new-administrative-capital":"قسم بدر",
-"Residential":"عقارات",
-"Commercial":"عقارات",
+    "Nasr City": "قسم مدينه نصر ",
+    "Residential": "عقارات",
+    "Commercial": "عقارات",
 }
+
 
 filter_mapping = {
     "apartments-duplex-for-sale": {
@@ -138,16 +400,382 @@ smsarko_asset_sub_mapping = {
 }
 
 smsarko_governorates = {
-    "Alexandria": ["qesm-el-manshia", "el-sahel-el-shamaly-1"],
-    "Cairo": ["nasr-city", "new-administrative-capital"]  # Add more if needed
-}
+             "Alexandria": [
+                "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
+                "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+                "Sidi Gaber"
+            ],
+            "Beni Suef": [
+                "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
+            ],
+            "Cairo": [
+                "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
+                "Boulaq Abo El Ela",
+                "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
+                "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
+                 "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
+                "Sharabeya",
+                "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
+            ],
+            "Gharbia": [
+                "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 3",
+                "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
+            ],
+            "Fayoum": [
+                "Atssa", "Fayoum City", "Fayoum Center", "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
+                "Yusuf al-Sadiq"
+            ],
+            "Beheira": [
+                "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
+                "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
+                "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
+            ],
+
+            "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
+            "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
+            "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul", "Kafr al-Sheikh City "
+                               , "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
+                               "Sidi Salem"],
+            "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
+                       "Siwa"],
+            "Ismailia": ["Abu Swear", "Fayed", "Ismailia City ",  "Kantara East", "Kantara West",
+                         "Qassaseen", "Tal al-Kebeer"],
+            "Giza": ["6th of October ",  "Agouza",
+                     "Badrasheen",
+                     "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
+                     "Saf",
+                     "Sheikh Zayed", "Warraq"],
+
+            "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
+            "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
+            "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
+            "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
+                         "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
+            "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
+            "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
+                        "Deyerb Negm",
+                        "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
+                        "Qareen", "Zagazig"],
+            "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
+            "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
+                            "St. Catherine",
+                            "Taba", "Tor Sinai"],
+            "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
+                      "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
+        }
+
 
 smsarko_location_dict = {
-    "qesm-el-manshia": "قسم المنشية",
-    "el-sahel-el-shamaly-1": "الساحل الشمالي 1",
-    "nasr-city": "مدينة نصر",
-    "new-administrative-capital": "قسم بدر",
-    "helwan": "حلوان"
+    "Alexandria": "محافظه الاسكندريه",
+    "Attarin": "قسم العطارين",
+    "Borg al-Arab": "قسم برج العرب",
+    "New Borg al-Arab": "مدينه برج العرب الجديده",
+    "Dekheila": "قسم الدخيله",
+    "Gomrok": "قسم الجمرك",
+    "Karmous": "قسم كرموز",
+    "Labban": "قسم اللبان",
+    "Manshiyya": "قسم المنشيه",
+    "Mina El Basal": "قسم مينا البصل",
+    "Moharam Bik": "قسم محرم بك",
+    "Montazah": "قسم اول المنتزه",
+    "Raml Station ": "قسم اول الرمل",
+    "Sidi Gaber": "قسم سيدى جابر",
+
+    "Beni Suef": "محافظه بني سويف",
+    "Al Feshn": "مركز الفشن",
+    "Al Wasty": "مركز الواسطى",
+    "Beba": "مركز ببا",
+    "Beni Suef City": "مركز بنى سويف",
+    "Ehnasia": "مركز اهناسيا",
+    "Nasser": "مركز ناصر",
+    "New Beni Suef": "قسم مدينه بنى سويف الجديده",
+    "Samasta": "مركز سمسطا",
+
+    "Cairo": "محافظه القاهره",
+    "15 May City": "قسم 15 مايو",
+    "Ain Shams": "قسم عين شمس",
+    "Al Amiriyyah": "قسم الاميريه",
+    "Bab al-Shereia": "قسم باب الشعريه",
+    "Badr City": "قسم بدر",
+    "Basateen": "قسم البساتين",
+    "Boulaq Abo El Ela": "قسم بولاق",
+    "Dar al-Salaam": "قسم دار السلام",
+    "Darb al-Ahmar": "قسم الدرب الاحمر",
+    "Gamaleya": "قسم الجماليه",
+    "Hadayek al-Kobba": "قسم حدائق القبه",
+    "Helwan": "قسم حلوان",
+    "Ma'sara": "قسم المعصره",
+    "Maadi": "قسم المعادى",
+    "Marg": "قسم المرج",
+    "Masr al-Kadema": "قسم مصر القديمه",
+    "Matareya": "قسم المطريه",
+    "Mokattam": "قسم المقطم",
+    "Nasr City 1": "قسم اول مدينه نصر",
+    "Nasr City 2": "قسم ثان مدينه نصر",
+    "New Cairo 1": "قسم اول القاهره الجديده",
+    "New Cairo 2": "قسم ثان القاهره الجديده",
+    "New Cairo 3": "قسم ثالث القاهره الجديده",
+    "Qasr al-Nil": "قسم قصر النيل",
+    "Rod al-Farag": "قسم روض الفرج",
+    "Salam City 1": "قسم اول السلام",
+    "Salam City 2": "قسم ثان السلام",
+    "Sayeda Zeinab": "قسم السيده زينب",
+    "Sharabeya": "قسم الشرابيه",
+    "Shorouk City": "قسم الشروق",
+    "Shubra": "قسم شبرا",
+    "Tebeen": "قسم التبين",
+    "Tura": "قسم طره",
+    "Waili": "قسم الوايلى",
+    "Zamalek": "قسم الزمالك",
+    "Zawya al-Hamra": "قسم الزاويه الحمراء",
+    "New Valley": "محافظه الوادي الجديد",
+    "Balat": "مركز بلاط",
+    "Dakhla": "مركز الداخله",
+    "Farafra": "مركز الفرافره",
+    "Kharga": "قسم الخارجه",
+    "Paris": "مركز باريس",
+
+    "Luxor": "محافظه الاقصر",
+    "Armant": "مركز ارمنت",
+    "Isna": "مركز اسنا",
+    "Luxor City": "قسم الاقصر",
+    "Luxor Center": "مركز الاقصر",
+    "Qurna": "مركز القرنه",
+    "Gharbia": "محافظه الغربيه",
+    "Basyoun": "مركز بسيون",
+    "Kafr al-Zayat": "مركز كفر الزيات",
+    "Mahalla al-Kobra": "قسم اول المحله الكبرى",
+    "Mahalla al-Kobra 2": "قسم ثان المحله الكبرى",
+    "Mahalla al-Kobra 3": "قسم ثالث المحله الكبرى",
+    "Mahalla al-Kobra Center": "مركز المحله الكبرى",
+    "Qutour": "مركز قطور",
+    "Samanoud": "مركز سمنود",
+    "Santa": "مركز السنطه",
+
+    "Fayoum": "محافظه الفيوم",
+    "Atssa": "مركز اطسا",
+    "Fayoum City": "قسم اول الفيوم",
+    "Fayoum Center": "مركز الفيوم",
+    "Ibshway": "مركز ابشواى",
+    "New Fayoum": "مدينه الفيوم الجديده",
+    "Sinnuras": "مركز سنورس",
+    "Tamiya": "مركز طاميه",
+    "Yusuf al-Sadiq": "مركز يوسف الصديق",
+
+    "Beheira": "محافظه البحيره",
+    "Abou Homs": "مركز ابو حمص",
+    "Abuu al-Matamer": "مركز ابو المطامير",
+    "Al Nubariyah": "قسم غرب النوباريه",
+    "Damanhour": "قسم دمنهور",
+    "Damanhour Center": "مركز دمنهور",
+    "Delengat": "مركز الدلنجات",
+    "Edko": "مركز ادكو",
+    "Etay al-Barud": "مركز ايتاى البارود",
+    "Hosh Essa": "مركز حوش عيسى",
+    "Kafr al-Dawwar": "قسم كفر الدوار",
+    "Kafr al-Dawwar Center": "مركز كفر الدوار",
+    "Kom Hamadah": "مركز كوم حماده",
+    "Mahmoudiyah": "مركز المحموديه",
+    "Markaz Badr": "مركز بدر",
+    "Rahmaniya": "مركز الرحمانيه",
+    "Rashid": "مركز رشيد",
+    "Shubrakhit": "مركز شبراخيت",
+    "Wadi al-Natrun": "مركز وادى النطرون",
+    "Kafr al-Sheikh": "محافظه كفر الشيخ",
+    "Bella": "قسم بيلا",
+    "Bella Center": "مركز بيلا",
+    "Brolos": "مركز البرلس",
+    "Desouk": "مركز دسوق",
+    "Fouh": "مركز فوه",
+    "Hamoul": "مركز الحامول",
+    "Kafr al-Sheikh City 1": "قسم اول كفر الشيخ",
+    "Kafr al-Sheikh City 2": "قسم ثان كفر الشيخ",
+    "Kafr al-Sheikh Center": "مركز كفر الشيخ",
+    "Motobas": "مركز مطوبس",
+    "Qaleen": "مركز قلين",
+    "Riyadh": "مركز الرياض",
+    "Sidi Salem": "مركز سيدى سالم",
+
+    "Matruh": "محافظه مطروح",
+    "Alamein": "قسم العلمين",
+    "Barany": "قسم سيدى برانى",
+    "Dabaa": "قسم الضبعه",
+    "Hammam": "قسم الحمام",
+    "Marsa Matrouh": "قسم مرسي مطروح",
+    "Nagela": "قسم النجيله",
+    "North Coast": "قسم الساحل الشمالى",
+    "Salloum": "قسم السلوم",
+    "Siwa": "قسم سيوه",
+
+    "Ismailia": "محافظه الاسماعيليه",
+    "Abu Swear": "مركز ابوصوير",
+    "Fayed": "مركز فايد",
+    "Ismailia City 1": "قسم اول",
+    "Ismailia City 2": "قسم ثان",
+    "Kantara East": "مركز القنطره شرق",
+    "Kantara West": "مركز القنطره غرب",
+    "Qassaseen": "مركز القصاصين الجديده",
+    "Tal al-Kebeer": "مركز التل الكبير",
+
+    "Giza": "محافظه الجيزه",
+    "6th of October 1": "قسم اول 6 اكتوبر",
+    "6th of October 2": "قسم ثان 6 اكتوير",
+    "6th of October 3": "قسم ثالث 6 اكتوبر",
+    "6th of October 4": "قسم رابع 6 اكتوبر",
+    "Agouza": "قسم العجوزه",
+    "Badrasheen": "مركز البدرشين",
+    "Boulaq Dakrour": "قسم بولاق الدكرور",
+    "Dokki": "قسم الدقى",
+    "El Ayyat": "مركز العياط",
+    "Giza District": "قسم الجيزه",
+    "Hawamdeya": "قسم الحوامديه",
+    "Imbaba": "قسم امبابه",
+    "Kerdasa": "مركز كرداسه",
+    "Oseem": "مركز اوسيم",
+    "Saf": "مركز الصف",
+    "Sheikh Zayed": "قسم الشيخ زايد",
+    "Warraq": "قسم الوراق",
+
+    "Asyut": "محافظه اسيوط",
+    "Qusiya": "مركز القوصيه",
+    "Sahel Selim": "مركز ساحل سليم",
+    "Sedfa": "مركز صدفا",
+
+    "Aswan": "محافظه اسوان",
+    "Abou Simbel": "مركز ابو سمبل",
+    "Daraw": "مركز دراو",
+    "Edfu": "مركز ادفو",
+    "Kom Ombo": "مركز كوم امبو",
+    "Nasr al-Noba": "مركز نصر النوبه",
+
+    "Damietta": "محافظه دمياط",
+    "Fareskour": "مركز فارسكور",
+    "Kafr al-Bateekh": "مركز كفر البطيخ",
+    "Kafr Saad": "مركز كفر سعد",
+    "New Damietta": "قسم مدينه دمياط الجديدة",
+    "Ras al-Bar": "قسم راس البر",
+    "Saro": "قسم السرو",
+    "Zarqa": "مركز الزرقا",
+
+    "Qalyubia": "محافظه القليوبيه",
+    "Banha": "مركز بنها",
+    "Kafr Shukr": "مركز كفر شكر",
+    "Khanka": "قسم الخانكه",
+    "Khosous": "قسم الخصوص",
+    "Qaha": "قسم قها",
+    "Qalyub": "قسم قليوب",
+    "Qanater al-Khairia": "مركز القناطر الخيريه",
+    "Shebin al-Qanater": "مركز شبين القناطر",
+    "Shubra al-Khaimah": "قسم اول شبرا الخيمه",
+    "Tookh": "مركز طوخ",
+
+    "Qena": "محافظه قنا",
+    "Abu Tisht": "مركز ابو تشت",
+    "Dishna": "مركز دشنا",
+    "Farshout": "مركز فرشوط",
+    "Nag Hammadi": "مركز نجع حمادى",
+    "Nakada": "مركز نقاده",
+    "Quos": "مركز قوص",
+    "Wakf": "مركز الوقف",
+
+    "Sharqia": "محافظه الشرقيه",
+    "10th of Ramadan": "العاشر من رمضان",
+    "Abu Hammad": "مركز ابو حماد",
+    "Abu Kabir": "مركز ابو كبير",
+    "Alqnayat": "مدينة القنايات",
+    "Awlad Saqr": "مركز اولاد صقر",
+    "Bilbeis": "مركز بلبيس",
+    "Deyerb Negm": "مركز ديرب نجم",
+    "Faqous": "مركز فاقوس",
+    "Hihya": "مركز ههيا",
+    "Husseiniya": "مركز الحسينيه",
+    "Ibrahemyah": "مركز الابراهيمية",
+    "Kafr Saqr": "مركز كفر صقر",
+    "Mashtool al-Souk": "مركز مشتول السوق",
+    "Minya al-Qamh": "مركز منيا القمح",
+    "Qareen": "مدينة القرين",
+    "Zagazig": "مركز الزقازيق",
+
+    "Port Said": "محافظه بورسعيد",
+    "Arab District": "قسم العرب",
+    "Dawahy District": "قسم الضواحى",
+    "Ganoub District": "قسم الجنوب",
+    "Manakh District": "قسم المناخ",
+    "Port Fouad": "قسم بورفؤاد",
+    "Sharq District": "قسم الشرق",
+    "Zohour District": "قسم الزهور",
+
+    "Minya": "محافظه المنيا",
+    "Abu Qurqas": "مركز ابو قرقاص",
+    "Adwa": "مركز العدوه",
+    "Beni Mazar": "مركز بنى مزار",
+    "Deir Mawas": "مركز دير مواس",
+    "Maghagha": "مركز مغاغه",
+    "Malawi": "قسم ملوى",
+    "Matay": "مركز مطاى",
+    "New Minya": "قسم المنيا الجديده",
+    "Samalut": "مركز سمالوط",
+
+    "Monufia": "محافظه المنوفيه",
+    "Ashmon": "مركز اشمون",
+    "Bagour": "مركز الباجور",
+    "Berket al-Sabaa": "مركز بركه السبع",
+    "Menouf": "قسم مدينه منوف",
+    "Quesna": "مركز قويسنا",
+    "Sadat": "مركز ومدينه السادات",
+    "Sers al-Lyan": "قسم سرس الليان",
+    "Shebin al-Koum": "قسم شبين الكوم",
+    "Shohadaa": "مركز الشهداء",
+    "Tala": "مركز تلا",
+
+    "Suez": "محافظه السويس",
+    "Arbaeen": "قسم الاربعين",
+    "Attaka": "قسم عتاقه",
+    "Faisal District": "قسم فيصل",
+    "Ganayen": "قسم الجناين",
+    "Suez District": "قسم السويس",
+
+    "South Sinai": "محافظه جنوب سيناء",
+    "Abu Rudeis": "قسم ابورديس",
+    "Abu Zenimah": "قسم ابوزنيمه",
+    "Dahab": "قسم دهب",
+    "Nuweiba": "قسم نويبع",
+    "Ras Sedr": "قسم راس سدر",
+    "Sharm al-Sheikh": "قسم شرم الشيخ",
+    "St. Catherine": "قسم سانت كاترين",
+    "Taba": "قسم طابا",
+    "Tor Sinai": "قسم الطور",
+
+    "Sohag": "محافظه سوهاج",
+    "Akhmim": "مركز اخميم",
+    "Alasirat": "مركز العسيرات",
+    "Baliana": "مركز البلينا",
+    "Girga": "مركز جرجا",
+    "Maragha": "مركز المراغه",
+    "Markaz Dar El Salam": "مركز دار السلام",
+    "Markaz Juhaynah": "مركز جهينه",
+    "Markaz Sohag": "مركز سوهاج",
+    "Monsha'a": "مركز المنشاه",
+    "New Sohag": "مدينه سوهاج الجديده",
+    "Sakaltah": "مركز ساقلته",
+    "Tahta": "مركز طهطا",
+    "Tama": "مركز طما",
+
+    "Properties": "عقارات",
+    "Lands": "أراضي",
+    "monufia": "محافظه المنوفيه",
+    "menouf": "مركز منوف",
+    "shebin-al-koum": "مركز شبين الكوم",
+    "berket-al-sabaa": "مركز بركه السبع",
+    "faqous": "مركز فاقوس",
+    "bilbeis": "مركز بلبيس",
+    "Buildings and Lands": "أراضي",
+    "Commercial Properties": "عقارات",
+    "Residential Properties": "عقارات",
+    "Residential Apartments": "عقارات",
+    "Nasr City": "قسم مدينه نصر ",
+    "Residential": "عقارات",
+    "Commercial": "عقارات",
 }
 
 
@@ -197,10 +825,6 @@ aqarmap_governorates = {
     "Sharqia": ["zagazig"],
     "monufia": ["monufia"],
 }
-
-# ------------------ DRIVER SETUP & UTILITY FUNCTIONS ------------------
-
-
 
 
 def setup_driver():
@@ -380,7 +1004,7 @@ def scrape_aqarmap_data(url):
                     By.XPATH, ".//a[contains(@class, 'p-2x') and starts-with(@href, '/en/listing/')]"
                 )
                 if not details_links:
-                    print(f"Card {index}: No details link found in this card.")
+                    # print(f"Card {index}: No details link found in this card.")
                     continue
                 details_link = details_links[0]
 
@@ -511,9 +1135,71 @@ aqarmap_asset_sub_mapping = {
 }
 
 aqarmap_governorates = {
-    "Cairo": ["Nasr City", "Heliopolis","new-administrative-capital"],
-    "Alexandria": ["Smouha", "Stanley"]
+    "Alexandria": [
+        "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
+        "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+        "Sidi Gaber"
+    ],
+    "Beni Suef": [
+        "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
+    ],
+    "Cairo": [
+        "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
+        "Boulaq Abo El Ela",
+        "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
+        "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
+        "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
+        "Sharabeya",
+        "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
+    ],
+    "Gharbia": [
+        "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
+        "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
+    ],
+    "Fayoum": [
+        "Atssa", "Fayoum City", "Fayoum Center",  "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
+        "Yusuf al-Sadiq"
+    ],
+    "Beheira": [
+        "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
+        "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
+        "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
+    ],
+
+    "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
+    "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
+    "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul",
+                       "Kafr al-Sheikh City", "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
+                       "Sidi Salem"],
+    "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
+               "Siwa"],
+    "Ismailia": ["Abu Swear", "Fayed", "Ismailia City", "Kantara East", "Kantara West",
+                 "Qassaseen", "Tal al-Kebeer"],
+    "Giza": ["6th of October ", "Agouza",
+             "Badrasheen",
+             "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
+             "Saf",
+             "Sheikh Zayed", "Warraq"],
+
+    "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
+    "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
+    "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
+
+    "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
+                 "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
+    "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
+    "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
+                "Deyerb Negm",
+                "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
+                "Qareen", "Zagazig"],
+    "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
+    "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
+                    "St. Catherine",
+                    "Taba", "Tor Sinai"],
+    "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
+              "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
 }
+
 
 # Dummy Arabic names mapping (for demonstration)
 
@@ -573,10 +1259,15 @@ def get_db_connection():
         st.error(f"Failed to connect to SQL Server: {e}")
         return None
 
+
 def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, governorate_name, section_name):
     conn = get_db_connection()
     if not conn:
         return None
+
+    governorate_name_ar = arabic_names.get(governorate_name, governorate_name)
+    section_name_ar = arabic_names.get(section_name, section_name)
+
     query = """
     SELECT a.asset_id, a.final_area_m2, a.ASSET_TYPE_DESC, 
            a.ASSET_SUB_TYPE_DESC, a.GOVERNORATE_NAME, a.SECTION_NAME
@@ -588,20 +1279,23 @@ def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, gove
     """
     try:
         cursor = conn.cursor()
-        st.write("Fetching assets with keys:")
-        st.write("Asset Type:", asset_type_desc)
-        st.write("Asset Sub-Type:", asset_sub_type_desc)
-        st.write("Governorate:", governorate_name)
-        st.write("Section:", section_name)
-        cursor.execute(query, (asset_type_desc, asset_sub_type_desc, governorate_name, section_name))
+        st.write("جاري البحث عن الأصول بالمفاتيح التالية:")
+        st.write("نوع الأصل:", asset_type_desc)
+        st.write("نوع الأصل الفرعي:", asset_sub_type_desc)
+        st.write("المحافظة:", governorate_name_ar)
+        st.write("القسم:", section_name_ar)
+
+        cursor.execute(query, (asset_type_desc, asset_sub_type_desc, governorate_name_ar, section_name_ar))
         results = cursor.fetchall()
-        st.write("Found", len(results), "matching assets in view.")
+
+        st.write("تم العثور على", len(results), "أصل مطابق في العرض.")
         return results
     except Exception as e:
-        st.error(f"Error fetching assets by keys: {e}")
+        st.error(f"حدث خطأ أثناء جلب الأصول بالمفاتيح: {e}")
         return None
     finally:
         conn.close()
+
 
 def process_assets_batch(assets, price_per_m2, rent_per_m2):
     conn = get_db_connection()
@@ -673,11 +1367,72 @@ def main():
             "Buildings and Lands": "buildings-lands-other"
         }
         governorates_list = {
-            "Alexandria": ["moharam-bik", "dekheila", "sidi-gaber", "manshiyya"],
-            "Cairo": ["badr-city", "hadayek-al-kobba", "15-may-city"],
-            "Sharqia": ["zagazig", "10th-of-ramadan", "deyerb-negm", "faqous", "bilbeis", "hihya", "kafr-saqr"],
-            "monufia": ["menouf", "shebin-al-koum", "berket-al-sabaa"],
+            "Alexandria": [
+                "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
+                "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+                "Sidi Gaber"
+            ],
+            "Beni Suef": [
+                "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
+            ],
+            "Cairo": [
+                "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
+                "Boulaq Abo El Ela",
+                "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
+                "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
+                 "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
+                "Sharabeya",
+                "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
+            ],
+            "Gharbia": [
+                "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
+                "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
+            ],
+            "Fayoum": [
+                "Atssa", "Fayoum City", "Fayoum Center", "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
+                "Yusuf al-Sadiq"
+            ],
+            "Beheira": [
+                "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
+                "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
+                "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
+            ],
+
+            "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
+
+            "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
+
+            "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul", "Kafr al-Sheikh City",
+                                "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
+                               "Sidi Salem"],
+            "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
+                       "Siwa"],
+            "Ismailia": ["Abu Swear", "Fayed", "Ismailia City", "Kantara East", "Kantara West",
+                         "Qassaseen", "Tal al-Kebeer"],
+            "Giza": ["6th of October", "Agouza",
+                     "Badrasheen",
+                     "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
+                     "Saf",
+                     "Sheikh Zayed", "Warraq"],
+
+            "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
+            "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
+            "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
+            "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
+                         "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
+            "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
+            "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
+                        "Deyerb Negm",
+                        "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
+                        "Qareen", "Zagazig"],
+            "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
+            "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
+                            "St. Catherine",
+                            "Taba", "Tor Sinai"],
+            "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
+                      "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
         }
+
         property_type = st.selectbox("🏠 Select property type:", list(property_types.keys()), index=0)
         url_type = property_types[property_type]
         asset_sub_options = ASSET_SUB_TYPE_MAPPING.get(url_type, [])
@@ -937,9 +1692,12 @@ def main():
     # Set BASE_PATH to your desired directory
     BASE_PATH = r"C:\Users\edge-t\Desktop\Edge Pro\cama_web_scrappin\housing sf"
 
+    # ... [previous code remains unchanged]
+
     st.markdown("---")
     st.subheader("Final Report Generation")
 
+    # Check that all three reports have been generated
     if all(key in st.session_state for key in ["dubizzle_report_df", "smsarko_report_df", "aqarmap_report_df"]):
         if st.button("✨ Generate Final Report"):
             with st.spinner("Processing final report..."):
@@ -955,7 +1713,7 @@ def main():
                 ]
                 dfs = {'Dubizzle': dubizzle_df, 'SMSARKO': smsarko_df, 'Aqarmap': aqarmap_df}
 
-                # Check for missing columns
+                # Check for missing columns in any report
                 for name, df in dfs.items():
                     missing = [col for col in required_columns if col not in df.columns]
                     if missing:
@@ -1019,7 +1777,6 @@ def main():
                     final_df.to_excel(writer, index=False, sheet_name='Final Report')
 
                 st.success("✅ Final report generated and saved successfully!")
-
                 st.download_button(
                     label="📥 Download Final Report",
                     data=buffer,
@@ -1029,6 +1786,45 @@ def main():
                 st.write("### Final Report Preview")
                 st.dataframe(final_df)
 
+                # Store the final report in session state for later updates
+                st.session_state["final_df"] = final_df
+
+    # --- New Section: Button to update final report data to the database ---
+
+    if "final_df" in st.session_state:
+        if st.button("🔄 Update Final Report to Database"):
+            with st.spinner("Updating Final Report assets in database..."):
+                final_df = st.session_state["final_df"]
+                total_updated = 0
+
+                # Iterate through each group (each row) in the final report
+                for idx, row in final_df.iterrows():
+                    asset_type_desc = row['ASSET_TYPE_DESC']
+                    asset_sub_type = row['ASSET_SUB_TYPE_DESC']
+                    governorate_name = row['GOVERNORATE_NAME']
+                    section_name = row['SECTION_NAME']
+                    price_per_m2 = row['Price per m²']
+                    rent_per_m2 = row['Rent per m²']
+
+                    # Find matching assets in the database for this group
+                    matching_assets = fetch_all_matching_assets_by_keys(
+                        asset_type_desc,
+                        asset_sub_type,
+                        governorate_name,
+                        section_name
+                    )
+
+                    if matching_assets and len(matching_assets) > 0:
+                        st.write(
+                            f"Found {len(matching_assets)} matching assets for {asset_type_desc} in {governorate_name} - {section_name}")
+                        result = process_assets_batch(matching_assets, price_per_m2, rent_per_m2)
+                        if result:
+                            total_updated += result.get('updated', 0)
+
+                if total_updated > 0:
+                    st.success(f"✅ Updated {total_updated} assets from Final Report in the database")
+                else:
+                    st.warning("No matching assets found for Final Report update.")
 
 if __name__ == "__main__":
     main()
