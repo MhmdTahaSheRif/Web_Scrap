@@ -829,7 +829,7 @@ aqarmap_asset_sub_mapping = {
 aqarmap_governorates = {
     "Alexandria": [
         "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
-        "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+        "Mina El Basal", "Moharam Bik", "Montazah", "Raml Station",
         "Sidi Gaber"
     ],
     "Beni Suef": [
@@ -839,16 +839,16 @@ aqarmap_governorates = {
         "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
         "Boulaq Abo El Ela",
         "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
-        "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
+        "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo",
         "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
         "Sharabeya",
         "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
     ],
     "Gharbia": [
-        "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
+        "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra",
         "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
     ],
-    "Fayoum": [
+    "el-fayoum": [
         "Atssa", "Fayoum City", "Fayoum Center",  "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
         "Yusuf al-Sadiq"
     ],
@@ -863,11 +863,11 @@ aqarmap_governorates = {
     "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul",
                        "Kafr al-Sheikh City", "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
                        "Sidi Salem"],
-    "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
+    "marsa-matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
                "Siwa"],
     "Ismailia": ["Abu Swear", "Fayed", "Ismailia City", "Kantara East", "Kantara West",
                  "Qassaseen", "Tal al-Kebeer"],
-    "Giza": ["6th of October ", "Agouza",
+    "Giza": ["6th of October", "Agouza",
              "Badrasheen",
              "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
              "Saf",
@@ -1293,7 +1293,7 @@ def process_assets_batch(assets, price_per_m2, rent_per_m2):
         conn.close()
 
 def convert_to_arabic(name, lowercase_lookup=False):
-    
+
     key = name.lower() if lowercase_lookup else name
     return arabic_names.get(key, name)
 
@@ -1311,6 +1311,8 @@ def main():
     # ------------------ Dubizzle SECTION ------------------
 
     if selected_source == "Dubizzle":
+        st.subheader("Dubizzle Scraping Settings")
+
         property_types = {
             "Residential Properties": "apartments-duplex-for-sale",
             "Commercial Properties": "commercial-for-sale",
@@ -1319,7 +1321,7 @@ def main():
         governorates_list = {
             "Alexandria": [
                 "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
-                "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+                "Mina El Basal", "Moharam Bik", "Montazah", "Raml Station",
                 "Sidi Gaber"
             ],
             "Beni Suef": [
@@ -1329,13 +1331,13 @@ def main():
                 "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
                 "Boulaq Abo El Ela",
                 "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
-                "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
-                 "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
+                "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo",
+                 "Qasr al-Nil", "Rod al-Farag", "Salam City", "Sayeda Zeinab",
                 "Sharabeya",
                 "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
             ],
             "Gharbia": [
-                "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
+                "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra",
                 "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
             ],
             "Fayoum": [
@@ -1450,7 +1452,7 @@ def main():
                         'asset_type_desc': convert_to_arabic(
                             'أراضي' if url_type == "buildings-lands-other" else 'عقارات'),
                         'asset_sub_type': default_sub_type,
-                        'governorate_name': convert_to_arabic(selected_governorate), 
+                        'governorate_name': convert_to_arabic(selected_governorate),
                         'section_name': convert_to_arabic(selected_city, lowercase_lookup=True),
                         'price_per_m2': metrics.get('avg_price_per_m2', 0),
                         'rent_per_m2': metrics.get('avg_price_per_m2', 0) / (12 * 20)
@@ -1476,8 +1478,8 @@ def main():
 
 
         # ------------------ SMSARKO SECTION ------------------
-        
-        
+
+
         # ------------------ SMSARKO SECTION ------------------
 
     elif selected_source == "SMSARKO":
