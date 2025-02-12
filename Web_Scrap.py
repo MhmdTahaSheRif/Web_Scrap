@@ -356,7 +356,7 @@ ASSET_SUB_TYPE_MAPPING = {
     "buildings-lands-other": ["مبني سكني", "مبني"]
 }
 
-# ------------------ SMSARKO-SPECIFIC MAPPINGS ------------------
+# ------------------ SMSARKO MAPPINGS ------------------
 
 smsarko_property_types = {
     "Residential Apartments": "apartments-for-sale",
@@ -779,7 +779,8 @@ smsarko_location_dict = {
 }
 
 
-# ------------------ AQARMAP-SPECIFIC MAPPINGS ------------------
+# ------------------ AQARMAP MAPPINGS ------------------
+
 aqarmap_property_types = {
     "Commercial": "commercial",
     "Apartment": "apartment",
@@ -819,28 +820,88 @@ aqarmap_ASSET_SUB_TYPE_MAPPING = {
     "lands-for-sale": ["مبني سكني", "مبني"]
 }
 
+aqarmap_asset_sub_mapping = {
+    "apartment": ["غرفة", "وحدة سكنية"],
+    "commercial": ["وحدة إدارية", "مبني اداري", "محل تجاري", "جراج", "مول تجاري", "مول تجاري وجراج", "مخبز", "وحدة طبية", "مبنى خدمي", "فندق", "فندق عائم", "مطعم", "مطعم عائم", "قاعة مناسبات", "جبانات"],
+    "land-or-farm": ["مبني سكني", "مبني"]
+}
+
 aqarmap_governorates = {
-    "Alexandria": ["moharram-bey"],
-    "Cairo": ["cairo"],
-    "Sharqia": ["zagazig"],
-    "monufia": ["monufia"],
+    "Alexandria": [
+        "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
+        "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
+        "Sidi Gaber"
+    ],
+    "Beni Suef": [
+        "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
+    ],
+    "Cairo": [
+        "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
+        "Boulaq Abo El Ela",
+        "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
+        "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
+        "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
+        "Sharabeya",
+        "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
+    ],
+    "Gharbia": [
+        "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
+        "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
+    ],
+    "Fayoum": [
+        "Atssa", "Fayoum City", "Fayoum Center",  "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
+        "Yusuf al-Sadiq"
+    ],
+    "Beheira": [
+        "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
+        "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
+        "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
+    ],
+
+    "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
+    "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
+    "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul",
+                       "Kafr al-Sheikh City", "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
+                       "Sidi Salem"],
+    "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
+               "Siwa"],
+    "Ismailia": ["Abu Swear", "Fayed", "Ismailia City", "Kantara East", "Kantara West",
+                 "Qassaseen", "Tal al-Kebeer"],
+    "Giza": ["6th of October ", "Agouza",
+             "Badrasheen",
+             "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
+             "Saf",
+             "Sheikh Zayed", "Warraq"],
+
+    "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
+    "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
+    "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
+
+    "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
+                 "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
+    "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
+    "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
+                "Deyerb Negm",
+                "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
+                "Qareen", "Zagazig"],
+    "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
+    "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
+                    "St. Catherine",
+                    "Taba", "Tor Sinai"],
+    "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
+              "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
 }
 
 
 def setup_driver():
     chrome_path = r'C:\Users\edge-t\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe'
 
-    # Attempt to remove the driver file if it exists.
     if os.path.exists(chrome_path):
         try:
             os.remove(chrome_path)
         except Exception as e:
-            # Log the exception so you know why removal failed.
             print(f"Could not remove file at {chrome_path}: {e}")
-            # Depending on your needs, you might want to either:
-            # - exit the function early, or
-            # - continue without removal.
-            # For now, we continue.
+
 
 
     options = uc.ChromeOptions()
@@ -967,48 +1028,28 @@ def scrape_smsarko_data(url):
     finally:
         driver.quit()
 
-
-
-
 def scrape_aqarmap_data(url):
-    """
-    Scrape Aqarmap listings from the given URL.
-
-    This function:
-      - Waits for listing cards to load.
-      - Scrolls down to trigger lazy-loading.
-      - For each listing card, attempts to locate the details link,
-        then extracts the price and area information.
-    Returns:
-      A list of (price, area) tuples.
-    """
     driver = setup_driver()  # Ensure your driver is correctly set up.
     property_data = []
     try:
         driver.get(url)
 
-        # Wait until at least one listing card is present.
         wait = WebDriverWait(driver, 30)
         wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'listing-card')]")))
 
-        # Scroll down to load any lazy-loaded content.
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)
 
-        # Find all listing cards.
         cards = driver.find_elements(By.XPATH, "//div[contains(@class, 'listing-card')]")
         for index, card in enumerate(cards, start=1):
             try:
-                # Look for the details anchor that should contain the text details.
                 details_links = card.find_elements(
                     By.XPATH, ".//a[contains(@class, 'p-2x') and starts-with(@href, '/en/listing/')]"
                 )
                 if not details_links:
-                    # print(f"Card {index}: No details link found in this card.")
                     continue
                 details_link = details_links[0]
 
-                # Locate the price element.
                 price_elems = details_link.find_elements(
                     By.XPATH, ".//span[contains(@class, 'text-title_4')]"
                 )
@@ -1019,7 +1060,6 @@ def scrape_aqarmap_data(url):
                 price_text = price_elem.text.strip()
                 price = extract_number(price_text, 100000, 1000000000)
 
-                # Locate the area element using a more flexible XPath.
                 area_elems = details_link.find_elements(
                     By.XPATH, ".//p[contains(., 'm²')]"
                 )
@@ -1058,7 +1098,7 @@ def calculate_metrics(data):
         'sample_size': len(data)
     }
 
-# ------------------ REPORT FUNCTIONS ------------------
+# ------------------ REPORTs FUNCTIONS ------------------
 
 def save_report_excel(property_type, governorate, city, metrics, selected_sub_type):
     default_sub_type = selected_sub_type if selected_sub_type and selected_sub_type.strip() != "" else "غير محدد"
@@ -1119,96 +1159,8 @@ def save_smsarko_report_excel(property_type, governorate, city, metrics, selecte
     return buffer, report_df
 
 
-
-
-
-aqarmap_property_types = {
-    "Residential": "apartment",
-    "Commercial": "commercial",
-    "Lands": "land-or-farm"
-}
-
-aqarmap_asset_sub_mapping = {
-    "apartment": ["غرفة", "وحدة سكنية"],
-    "commercial": ["وحدة إدارية", "مبني اداري", "محل تجاري", "جراج", "مول تجاري", "مول تجاري وجراج", "مخبز", "وحدة طبية", "مبنى خدمي", "فندق", "فندق عائم", "مطعم", "مطعم عائم", "قاعة مناسبات", "جبانات"],
-    "land-or-farm": ["مبني سكني", "مبني"]
-}
-
-aqarmap_governorates = {
-    "Alexandria": [
-        "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
-        "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
-        "Sidi Gaber"
-    ],
-    "Beni Suef": [
-        "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
-    ],
-    "Cairo": [
-        "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
-        "Boulaq Abo El Ela",
-        "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
-        "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
-        "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
-        "Sharabeya",
-        "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
-    ],
-    "Gharbia": [
-        "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 2", "Mahalla al-Kobra 3",
-        "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
-    ],
-    "Fayoum": [
-        "Atssa", "Fayoum City", "Fayoum Center",  "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
-        "Yusuf al-Sadiq"
-    ],
-    "Beheira": [
-        "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
-        "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
-        "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
-    ],
-
-    "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
-    "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
-    "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul",
-                       "Kafr al-Sheikh City", "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
-                       "Sidi Salem"],
-    "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
-               "Siwa"],
-    "Ismailia": ["Abu Swear", "Fayed", "Ismailia City", "Kantara East", "Kantara West",
-                 "Qassaseen", "Tal al-Kebeer"],
-    "Giza": ["6th of October ", "Agouza",
-             "Badrasheen",
-             "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
-             "Saf",
-             "Sheikh Zayed", "Warraq"],
-
-    "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
-    "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
-    "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
-
-    "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
-                 "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
-    "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
-    "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
-                "Deyerb Negm",
-                "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
-                "Qareen", "Zagazig"],
-    "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
-    "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
-                    "St. Catherine",
-                    "Taba", "Tor Sinai"],
-    "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
-              "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
-}
-
-
-# Dummy Arabic names mapping (for demonstration)
-
-
-
-# --- Dummy implementation of save_aqarmap_report_excel ---
 def save_aqarmap_report_excel(property_type, governorate, city, metrics, selected_sub_type):
     default_sub_type = selected_sub_type if selected_sub_type and selected_sub_type.strip() != "" else "غير محدد"
-    # Convert names to Arabic using our helper function:
     property_type_arabic = convert_to_arabic(property_type)
     governorate_arabic = convert_to_arabic(governorate)
     city_arabic = convert_to_arabic(city)
@@ -1240,8 +1192,7 @@ def save_aqarmap_report_excel(property_type, governorate, city, metrics, selecte
     buffer.seek(0)
     return buffer, report_df
 
-
-# ------------------ DATABASE FUNCTIONS ------------------
+# ------------------ DATABASE FUN ------------------
 
 def get_db_connection():
     conn_str = (
@@ -1342,10 +1293,7 @@ def process_assets_batch(assets, price_per_m2, rent_per_m2):
         conn.close()
 
 def convert_to_arabic(name, lowercase_lookup=False):
-    """
-    Converts the provided name to Arabic using the arabic_names dictionary.
-    If `lowercase_lookup` is True, the lookup key is forced to lowercase.
-    """
+    
     key = name.lower() if lowercase_lookup else name
     return arabic_names.get(key, name)
 
@@ -1359,6 +1307,8 @@ def main():
     st.markdown("### Analyze property prices and land rates in Egypt")
     source_options = ["Dubizzle", "SMSARKO", "Aqarmap"]
     selected_source = st.radio("Select Data Source:", source_options)
+
+    # ------------------ Dubizzle SECTION ------------------
 
     if selected_source == "Dubizzle":
         property_types = {
@@ -1464,8 +1414,6 @@ def main():
                     df_prices = pd.DataFrame(data, columns=['Price', 'Area'])
                     st.subheader("Market Price Distribution")
                     st.line_chart(df_prices['Price'])
-
-                    # Convert the names to Arabic using the helper function (or directly via the dictionary)
                     arabic_property_type = convert_to_arabic(property_type)
                     arabic_governorate = convert_to_arabic(selected_governorate)
                     arabic_city = convert_to_arabic(selected_city)
@@ -1502,9 +1450,8 @@ def main():
                         'asset_type_desc': convert_to_arabic(
                             'أراضي' if url_type == "buildings-lands-other" else 'عقارات'),
                         'asset_sub_type': default_sub_type,
-                        'governorate_name': convert_to_arabic(selected_governorate),  # uses key as is
+                        'governorate_name': convert_to_arabic(selected_governorate), 
                         'section_name': convert_to_arabic(selected_city, lowercase_lookup=True),
-                        # forces lowercase lookup
                         'price_per_m2': metrics.get('avg_price_per_m2', 0),
                         'rent_per_m2': metrics.get('avg_price_per_m2', 0) / (12 * 20)
                     }
@@ -1527,8 +1474,13 @@ def main():
                     else:
                         st.warning("No Dubizzle assets found for the selected criteria.")
 
-    elif selected_source == "SMSARKO":
+
         # ------------------ SMSARKO SECTION ------------------
+        
+        
+        # ------------------ SMSARKO SECTION ------------------
+
+    elif selected_source == "SMSARKO":
         st.subheader("SMSARKO Scraping Settings")
         smsarko_property = st.selectbox("🏠 Select SMSARKO property type:", list(smsarko_property_types.keys()))
         smsarko_property_value = smsarko_property_types[smsarko_property]
@@ -1601,6 +1553,10 @@ def main():
                     else:
                         st.warning("No SMSARKO assets found for the selected criteria.")
 
+        # ------------------ Aqarmap SECTION ------------------
+
+        # ------------------ Aqarmap SECTION ------------------
+
     elif selected_source == "Aqarmap":
         st.subheader("Aqarmap Scraping Settings")
 
@@ -1617,7 +1573,6 @@ def main():
         aqarmap_selected_governorate = st.selectbox("🌍 Select Aqarmap governorate:", list(aqarmap_governorates.keys()))
 
         aqarmap_selected_city = st.selectbox("🏙️ Select Aqarmap city:", aqarmap_governorates[aqarmap_selected_governorate])
-#https://aqarmap.com.eg/en/for-sale/land-or-farm/cairo/el-marg/
         aqarmap_governorate_slug = aqarmap_selected_governorate.lower().replace(" ", "-")
         aqarmap_city_slug = aqarmap_selected_city.lower().replace(" ", "-")
         base_url = f"https://aqarmap.com.eg/en/for-sale/{aqarmap_property_value}/{aqarmap_governorate_slug}/{aqarmap_city_slug}/"
@@ -1687,59 +1642,46 @@ def main():
                             st.error("❌ Failed to update Aqarmap assets")
                     else:
                         st.warning("No Aqarmap assets found for the selected criteria.")
-# In your main() function (or wherever appropriate), add the button:
 
-    # Set BASE_PATH to your desired directory
+
+    # --- Create final report excel sheet ---
+
+
     BASE_PATH = r"C:\Users\edge-t\Desktop\Edge Pro\cama_web_scrappin\housing sf"
-
-    # ... [previous code remains unchanged]
-
     st.markdown("---")
     st.subheader("Final Report Generation")
-
-    # Check that all three reports have been generated
     if all(key in st.session_state for key in ["dubizzle_report_df", "smsarko_report_df", "aqarmap_report_df"]):
         if st.button("✨ Generate Final Report"):
             with st.spinner("Processing final report..."):
-                # Retrieve dataframes from session state
                 dubizzle_df = st.session_state["dubizzle_report_df"]
                 smsarko_df = st.session_state["smsarko_report_df"]
                 aqarmap_df = st.session_state["aqarmap_report_df"]
 
-                # Define required columns
                 required_columns = [
                     'ASSET_SUB_TYPE_DESC', 'ASSET_TYPE_DESC', 'GOVERNORATE_NAME',
                     'SECTION_NAME', 'Price per m²', 'Rent per m²', 'Date'
                 ]
                 dfs = {'Dubizzle': dubizzle_df, 'SMSARKO': smsarko_df, 'Aqarmap': aqarmap_df}
 
-                # Check for missing columns in any report
                 for name, df in dfs.items():
                     missing = [col for col in required_columns if col not in df.columns]
                     if missing:
                         st.error(f"❌ {name} report is missing columns: {', '.join(missing)}")
                         return
 
-                # Helper function to extract unique grouping keys
                 def get_groups(df):
                     return set(df[['ASSET_SUB_TYPE_DESC', 'ASSET_TYPE_DESC', 'GOVERNORATE_NAME']].apply(tuple, axis=1))
 
-                # Get unique groups for each dataframe
                 dubizzle_groups = get_groups(dubizzle_df)
                 smsarko_groups = get_groups(smsarko_df)
                 aqarmap_groups = get_groups(aqarmap_df)
-
-                # Find common groups across all three reports
                 common_groups = dubizzle_groups & smsarko_groups & aqarmap_groups
 
                 if not common_groups:
                     st.error("❌ No common entries found across all three reports!")
                     return
-
-                # Combine data from all three reports for common groups
                 combined_dfs = []
                 for df in [dubizzle_df, smsarko_df, aqarmap_df]:
-                    # Create a temporary 'Group' column for filtering
                     df['Group'] = df[['ASSET_SUB_TYPE_DESC', 'ASSET_TYPE_DESC', 'GOVERNORATE_NAME']].apply(tuple,
                                                                                                            axis=1)
                     filtered = df[df['Group'].isin(common_groups)]
@@ -1747,12 +1689,10 @@ def main():
 
                 combined_df = pd.concat(combined_dfs, ignore_index=True)
 
-                # Ensure numeric columns are correctly typed
                 numeric_cols = ['Price per m²', 'Rent per m²']
                 for col in numeric_cols:
                     combined_df[col] = pd.to_numeric(combined_df[col], errors='coerce')
 
-                # Group by key columns and compute the averages
                 grouped = combined_df.groupby(
                     ['ASSET_SUB_TYPE_DESC', 'ASSET_TYPE_DESC', 'GOVERNORATE_NAME', 'SECTION_NAME']
                 ).agg({
@@ -1760,18 +1700,14 @@ def main():
                     'Rent per m²': 'mean'
                 }).reset_index()
 
-                # Add current date and reorder columns
                 grouped['Date'] = date.today().strftime('%Y-%m-%d')
                 final_df = grouped[['ASSET_TYPE_DESC', 'GOVERNORATE_NAME', 'SECTION_NAME',
                                     'Price per m²', 'Rent per m²', 'Date', 'ASSET_SUB_TYPE_DESC']]
 
-                # Save to Excel in a BytesIO buffer for the download button
                 buffer = BytesIO()
                 with pd.ExcelWriter(buffer, engine='openpyxl') as writer:
                     final_df.to_excel(writer, index=False, sheet_name='Final Report')
                 buffer.seek(0)
-
-                # Save the final report to the specified file path
                 file_path = os.path.join(BASE_PATH, "final_report.xlsx")
                 with pd.ExcelWriter(file_path, engine='openpyxl') as writer:
                     final_df.to_excel(writer, index=False, sheet_name='Final Report')
@@ -1785,19 +1721,15 @@ def main():
                 )
                 st.write("### Final Report Preview")
                 st.dataframe(final_df)
-
-                # Store the final report in session state for later updates
                 st.session_state["final_df"] = final_df
 
-    # --- New Section: Button to update final report data to the database ---
+    # --- Button to update final report data to database ---
 
     if "final_df" in st.session_state:
         if st.button("🔄 Update Final Report to Database"):
             with st.spinner("Updating Final Report assets in database..."):
                 final_df = st.session_state["final_df"]
                 total_updated = 0
-
-                # Iterate through each group (each row) in the final report
                 for idx, row in final_df.iterrows():
                     asset_type_desc = row['ASSET_TYPE_DESC']
                     asset_sub_type = row['ASSET_SUB_TYPE_DESC']
@@ -1806,7 +1738,6 @@ def main():
                     price_per_m2 = row['Price per m²']
                     rent_per_m2 = row['Rent per m²']
 
-                    # Find matching assets in the database for this group
                     matching_assets = fetch_all_matching_assets_by_keys(
                         asset_type_desc,
                         asset_sub_type,
