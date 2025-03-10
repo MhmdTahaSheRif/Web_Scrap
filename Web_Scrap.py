@@ -919,7 +919,6 @@ def setup_driver():
     try:
         driver = uc.Chrome(options=options, version_main=132, use_subprocess=True)
     except FileExistsError as fee:
-        # If a FileExistsError occurs, attempt removal again.
         print(f"FileExistsError encountered: {fee}. Trying to remove the file again.")
         if os.path.exists(chrome_path):
             try:
@@ -1029,7 +1028,7 @@ def scrape_smsarko_data(url):
         driver.quit()
 
 def scrape_aqarmap_data(url):
-    driver = setup_driver()  # Ensure your driver is correctly set up.
+    driver = setup_driver() 
     property_data = []
     try:
         driver.get(url)
@@ -1084,6 +1083,7 @@ def scrape_aqarmap_data(url):
         driver.quit()
 
 
+# imp    (done)
 def calculate_metrics(data):
     if not data:
         return None
@@ -1098,7 +1098,7 @@ def calculate_metrics(data):
         'sample_size': len(data)
     }
 
-# ------------------ REPORTs FUNCTIONS ------------------
+# ------------------ REPORTS SAVEEE FUNCTIONS ------------------
 
 def save_report_excel(property_type, governorate, city, metrics, selected_sub_type):
     default_sub_type = selected_sub_type if selected_sub_type and selected_sub_type.strip() != "" else "غير محدد"
@@ -1192,7 +1192,10 @@ def save_aqarmap_report_excel(property_type, governorate, city, metrics, selecte
     buffer.seek(0)
     return buffer, report_df
 
-# ------------------ DATABASE FUN ------------------
+
+
+
+# ------------------ DATABASE  ------------------ ✔️✔️✔️✔️✔️ DONEEEEEEE
 
 def get_db_connection():
     conn_str = (
@@ -1480,8 +1483,6 @@ def main():
         # ------------------ SMSARKO SECTION ------------------
 
 
-        # ------------------ SMSARKO SECTION ------------------
-
     elif selected_source == "SMSARKO":
         st.subheader("SMSARKO Scraping Settings")
         smsarko_property = st.selectbox("🏠 Select SMSARKO property type:", list(smsarko_property_types.keys()))
@@ -1555,7 +1556,6 @@ def main():
                     else:
                         st.warning("No SMSARKO assets found for the selected criteria.")
 
-        # ------------------ Aqarmap SECTION ------------------
 
         # ------------------ Aqarmap SECTION ------------------
 
