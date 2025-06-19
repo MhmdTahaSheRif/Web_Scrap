@@ -12,9 +12,32 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 from io import BytesIO
 from datetime import date
+import requests
 
 
 arabic_names = {
+    "قسم بنى سويف الجديده" : "قسم مدينه بنى سويف الجديده",
+    "قسم شرطه التجمع الخامس" : "قسم اول القاهره الجديده",
+    "قسم الفيوم"  : "قسم اول الفيوم" ,
+    "مركز شبرا خيت" : "مركز شبراخيت",
+    "قسم اول مدينه كفر الشيخ" : "قسم اول كفر الشيخ",
+    "الساحل الشمالى":"قسم الساحل الشمالى",
+    "قسم اول الاسماعيليه":"قسم اول",
+    "قسم ثان الاسماعيليه": "قسم ثان",
+    "قسم القنطره شرق" : "مركز القنطره شرق",
+    "مركز نصر" : "مركز نصر النوبه",
+    "مركز ابو طشت": "مركز ابو تشت",
+    "مركزههيا" :"مركز ههيا",
+    "مركزمنيا القمح": "مركز منيا القمح",
+    "قسم ثان الجنوب" :"قسم الجنوب",
+    "مركز سمالوط غرب" : "مركز سمالوط",
+    "مركز السادات" : "مركز ومدينه السادات",
+    "مركز شبين الكوم" : "قسم شبين الكوم",
+    "قسم اول شرم الشيخ" : "قسم شرم الشيخ",
+    "مركز جهينه الغربيه" : "مركز جهينه",
+    "مركز سوهاج الجديده" : "مدينه سوهاج الجديده",
+
+
     "Alexandria": "محافظه الاسكندريه",
     "Attarin": "قسم العطارين",
     "Borg al-Arab": "قسم برج العرب",
@@ -322,6 +345,9 @@ arabic_names = {
 }
 
 
+
+
+
 filter_mapping = {
     "apartments-duplex-for-sale": {
         "وحدة سكنية": "type_eq_1",
@@ -359,11 +385,14 @@ ASSET_SUB_TYPE_MAPPING = {
 # ------------------ SMSARKO MAPPINGS ------------------
 
 smsarko_property_types = {
-    "Residential Apartments": "apartments-for-sale",
-    "Commercial Properties": "commercial-for-sale",
-    "Lands": "lands-for-sale"
+      "شقق": "apartments-for-sale",
+    "فيلات": "villas-for-",
+    "عقارات تجارية": "commercial-for-sale",
+    "مصايف" :"vacation-for-sale" ,
+    "اراضي" : "lands-for-sale",
+    "اخري" : "other-for-sale"
 }
-
+#  https://www.smsarko.com/search/apartments-for-sale/alexandria-port-police-department
 
 filter_mapping_smsarko = {
     "apartments-for-sale": {
@@ -393,76 +422,54 @@ filter_mapping_smsarko = {
     }
 }
 
+
+
+#لسااااااااا
 smsarko_asset_sub_mapping = {
     "apartments-for-sale": ["غرفة", "وحدة سكنية"],
     "commercial-for-sale": ["وحدة إدارية", "مبني اداري", "محل تجاري", "جراج", "مول تجاري", "مول تجاري وجراج", "مخبز", "وحدة طبية", "مبنى خدمي", "فندق", "فندق عائم", "مطعم", "مطعم عائم", "قاعة مناسبات", "جبانات"],
     "lands-for-sale": ["مبني سكني", "مبني"]
 }
 
+
+
+
+
+
+
 smsarko_governorates = {
-             "Alexandria": [
-                "Attarin", "Borg al-Arab", "Dekheila", "Gomrok", "Karmous", "Labban", "Manshiyya",
-                "Mina El Basal", "Moharam Bik", "Montazah ", "Raml Station ",
-                "Sidi Gaber"
-            ],
-            "Beni Suef": [
-                "Al Feshn", "Al Wasty", "Beba", "Beni Suef City", "Ehnasia", "Nasser", "New Beni Suef", "Samasta"
-            ],
-            "Cairo": [
-                "15 May City", "Ain Shams", "Al Amiriyyah", "Bab al-Shereia", "Badr City", "Basateen",
-                "Boulaq Abo El Ela",
-                "Dar al-Salaam", "Darb al-Ahmar", "Gamaleya", "Hadayek al-Kobba", "Helwan", "Ma'sara", "Maadi", "Marg",
-                "Masr al-Kadema", "Matareya", "Mokattam", "Nasr City", "New Cairo ",
-                 "Qasr al-Nil", "Rod al-Farag", "Salam City ", "Sayeda Zeinab",
-                "Sharabeya",
-                "Shorouk City", "Shubra", "Tebeen", "Tura", "Waili", "Zamalek", "Zawya al-Hamra"
-            ],
-            "Gharbia": [
-                "Basyoun", "Kafr al-Zayat", "Mahalla al-Kobra", "Mahalla al-Kobra 3",
-                "Mahalla al-Kobra Center", "Qutour", "Samanoud", "Santa"
-            ],
-            "Fayoum": [
-                "Atssa", "Fayoum City", "Fayoum Center", "Ibshway", "New Fayoum", "Sinnuras", "Tamiya",
-                "Yusuf al-Sadiq"
-            ],
-            "Beheira": [
-                "Abou Homs", "Abuu al-Matamer", "Al Nubariyah", "Damanhour", "Damanhour Center", "Delengat", "Edko",
-                "Etay al-Barud", "Hosh Essa", "Kafr al-Dawwar", "Kafr al-Dawwar Center", "Kom Hamadah", "Mahmoudiyah",
-                "Markaz Badr", "Rahmaniya", "Rashid", "Shubrakhit", "Wadi al-Natrun"
-            ],
-
-            "New Valley": ["Balat", "Dakhla", "Farafra", "Kharga", "Paris"],
-            "Luxor": ["Armant", "Isna", "Luxor City", "Luxor Center", "Qurna"],
-            "Kafr al-Sheikh": ["Bella", "Bella Center", "Brolos", "Desouk", "Fouh", "Hamoul", "Kafr al-Sheikh City "
-                               , "Kafr al-Sheikh Center", "Motobas", "Qaleen", "Riyadh",
-                               "Sidi Salem"],
-            "Matruh": ["Alamein", "Barany", "Dabaa", "Hammam", "Marsa Matrouh", "Nagela", "North Coast", "Salloum",
-                       "Siwa"],
-            "Ismailia": ["Abu Swear", "Fayed", "Ismailia City ",  "Kantara East", "Kantara West",
-                         "Qassaseen", "Tal al-Kebeer"],
-            "Giza": ["6th of October ",  "Agouza",
-                     "Badrasheen",
-                     "Boulaq Dakrour", "Dokki", "El Ayyat", "Giza District", "Hawamdeya", "Imbaba", "Kerdasa", "Oseem",
-                     "Saf",
-                     "Sheikh Zayed", "Warraq"],
-
-            "Asyut": ["Qusiya", "Sahel Selim", "Sedfa"],
-            "Aswan": ["Abou Simbel", "Daraw", "Edfu", "Kom Ombo", "Nasr al-Noba"],
-            "Damietta": ["Fareskour", "Kafr al-Bateekh", "Kafr Saad", "New Damietta", "Ras al-Bar", "Saro", "Zarqa"],
-            "Qalyubia": ["Banha", "Kafr Shukr", "Khanka", "Khosous", "Qaha", "Qalyub", "Qanater al-Khairia",
-                         "Shebin al-Qanater", "Shubra al-Khaimah", "Tookh"],
-            "Qena": ["Abu Tisht", "Dishna", "Farshout", "Nag Hammadi", "Nakada", "Quos", "Wakf"],
-            "Sharqia": ["10th of Ramadan", "Abu Hammad", "Abu Kabir", "Alqnayat", "Awlad Saqr", "Bilbeis",
-                        "Deyerb Negm",
-                        "Faqous", "Hihya", "Husseiniya", "Ibrahemyah", "Kafr Saqr", "Mashtool al-Souk", "Minya al-Qamh",
-                        "Qareen", "Zagazig"],
-            "Suez": ["Arbaeen", "Attaka", "Faisal District", "Ganayen", "Suez District"],
-            "South Sinai": ["Abu Rudeis", "Abu Zenimah", "Dahab", "Nuweiba", "Ras Sedr", "Sharm al-Sheikh",
-                            "St. Catherine",
-                            "Taba", "Tor Sinai"],
-            "Sohag": ["Akhmim", "Alasirat", "Baliana", "Girga", "Maragha", "Markaz Dar El Salam", "Markaz Juhaynah",
-                      "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
+            "محافظه اسوان": "aswan",
+    "محافظه اسيوط": "assiot",
+    "محافظه الاسكندريه": "alexandria",
+    "محافظه الاقصر": "luxor",
+    "محافظه الاسماعيليه": "ismalia",
+    "البحر الأحمر": "red-sea", # 
+    "محافظه البحيره": "el-behera",
+    "محافظه الجيزه": "giza",
+    "الدقهلية": "el-daqahlia",
+    "محافظه السويس": "suez",
+    "محافظه الشرقيه": "el-sharkia",
+    "محافظه الغربيه": "el-gharbia",
+    "محافظه الفيوم": "el-faioum",
+    "محافظه القاهره": "cairo",
+    "محافظه القليوبيه": "el-qaliobia",
+    "محافظه المنوفيه": "el-monofia",
+    "محافظه المنيا": "el-menia",
+    "محافظه الوادي الجديد": "el-wadi-el-gidid",
+    "محافظه بني سويف": "beni-suef",
+    "محافظه بورسعيد": "port-said",
+    "محافظه جنوب سيناء": "south-sinai",
+    "محافظه دمياط": "domiat",
+    "محافظه سوهاج": "sohag",
+    "شمال سيناء": "north-sinai", # 
+    "محافظه قنا": "qena",
+    "محافظه كفر الشيخ": "kafr-el-shikh",
+    "محافظه مطروح": "matroh"
         }
+
+
+
+
 
 
 smsarko_location_dict = {
@@ -913,11 +920,15 @@ def setup_driver():
     options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument('--start-maximized')
     options.add_argument('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                         'AppleWebKit/537.36 (KHTML, like Gecko) '
-                         'Chrome/132.0.0.0 Safari/537.36')
+                     'AppleWebKit/537.36 (KHTML, like Gecko) '
+                     'Chrome/137.0.0.0 Safari/537.36')
+
+
+
+
 
     try:
-        driver = uc.Chrome(options=options, version_main=132, use_subprocess=True)
+        driver = uc.Chrome(options=options, version_main=137, use_subprocess=True)
     except FileExistsError as fee:
         print(f"FileExistsError encountered: {fee}. Trying to remove the file again.")
         if os.path.exists(chrome_path):
@@ -925,7 +936,7 @@ def setup_driver():
                 os.remove(chrome_path)
             except Exception as e:
                 print(f"Second attempt to remove {chrome_path} failed: {e}")
-        driver = uc.Chrome(options=options, version_main=132, use_subprocess=True)
+        driver = uc.Chrome(options=options, version_main=137, use_subprocess=True)
 
     return driver
 
@@ -1026,6 +1037,8 @@ def scrape_smsarko_data(url):
         return property_data
     finally:
         driver.quit()
+
+
 
 def scrape_aqarmap_data(url):
     driver = setup_driver() 
@@ -1301,13 +1314,48 @@ def convert_to_arabic(name, lowercase_lookup=False):
     return arabic_names.get(key, name)
 
 
+
+
+
+
+@st.cache_data
+def fetch_smsarko_cities(governorate_slug):
+    base_url = "https://www.smsarko.com/api/v1/locations/level2/"
+    full_url = base_url + governorate_slug
+    response = requests.get(full_url)
+
+    if response.status_code == 200:
+        data = response.json()
+        return {item["name_ar"]: item["slug"] for item in data}
+    else:
+        return {}
+
+
 # -------------------------------------------------------
 
 
+import base64
+
+def get_base64_image(image_path):
+    with open(image_path, "rb") as img_file:
+        b64_str = base64.b64encode(img_file.read()).decode()
+        return b64_str
+
 def main():
     st.set_page_config(page_title="Property Market Analysis", layout="wide")
-    st.title("🏡 Property Market Analysis")
-    st.markdown("### Analyze property prices and land rates in Egypt")
+    
+    img_base64 = get_base64_image("Logo.png")
+    
+    st.markdown(f"""
+        <div style='display: flex; flex-direction: column; align-items: center; margin-top: -10px;'>
+            <img src="data:image/png;base64,{img_base64}" width="200" style="margin-right: 20px; align-self: flex-start;" />
+            <div>
+                <h1 style="margin-bottom: 0;">🏡 Property Market Analysis</h1>
+                <h4 style="margin-top: 0; margin-left: 70px;">Analyze property prices and land rates in Egypt</h4>
+            </div>
+        </div>
+    """, unsafe_allow_html=True)
+
     source_options = ["Dubizzle", "SMSARKO", "Aqarmap"]
     selected_source = st.radio("Select Data Source:", source_options)
 
@@ -1414,6 +1462,7 @@ def main():
                     return
                 metrics = calculate_metrics(data)
                 if metrics:
+                    st.subheader("Final Report Generation")
                     st.metric("Average Price", f"{metrics.get('avg_price', 0):,.0f} EGP")
                     st.metric("Average Area", f"{metrics.get('avg_area', 0):,.2f} m²")
                     df_prices = pd.DataFrame(data, columns=['Price', 'Area'])
@@ -1480,82 +1529,108 @@ def main():
                         st.warning("No Dubizzle assets found for the selected criteria.")
 
 
-        # ------------------ SMSARKO SECTION ------------------
 
+   # ------------------ SMSARKO SECTION ------------------
+    if selected_source == "SMSARKO":
+        st.subheader("📊 SMSARKO Scraping Settings")
 
-    elif selected_source == "SMSARKO":
-        st.subheader("SMSARKO Scraping Settings")
         smsarko_property = st.selectbox("🏠 Select SMSARKO property type:", list(smsarko_property_types.keys()))
         smsarko_property_value = smsarko_property_types[smsarko_property]
-        smsarko_asset_sub_options = smsarko_asset_sub_mapping.get(smsarko_property_value, [])
-        smsarko_selected_asset_sub = st.selectbox("🔎 Select SMSARKO asset sub-type filter:", smsarko_asset_sub_options) if smsarko_asset_sub_options else ""
-        smsarko_default_sub = smsarko_selected_asset_sub if smsarko_selected_asset_sub.strip() != "" else "غير محدد"
+
         smsarko_selected_governorate = st.selectbox("🌍 Select SMSARKO governorate:", list(smsarko_governorates.keys()))
-        smsarko_selected_city = st.selectbox("🏙️ Select SMSARKO city:", smsarko_governorates[smsarko_selected_governorate])
-        smsarko_city_slug = smsarko_selected_city
-        url = f"https://www.smsarko.com/search/{smsarko_property_value}/{smsarko_city_slug}"
-        st.write("Using URL:", url)
+        governorate_slug = smsarko_governorates[smsarko_selected_governorate]
+
+        cities_list = fetch_smsarko_cities(governorate_slug)
+        if cities_list:
+            smsarko_selected_city = st.selectbox("🏙️ Select SMSARKO city:", list(cities_list.keys()))
+            city_slug = cities_list[smsarko_selected_city]
+        else:
+            st.warning("❌ No cities available for the selected governorate.")
+            return
+
+        url = f"https://www.smsarko.com/search/{smsarko_property_value}/{city_slug}"
+        st.write("🔗 Using URL:", url)
+
         if st.button("📊 Analyze Market Prices (SMSARKO)"):
             with st.spinner("Scraping SMSARKO market data..."):
                 data = scrape_smsarko_data(url)
                 if not data:
                     st.error("❌ No SMSARKO listings found!")
-                    return
-                metrics = calculate_metrics(data)
-                if metrics:
-                    st.metric("Average Price", f"{metrics.get('avg_price', 0):,.0f} EGP")
-                    st.metric("Average Area", f"{metrics.get('avg_area', 0):,.2f} m²")
-                    df_prices = pd.DataFrame(data, columns=['Price', 'Area'])
-                    st.subheader("SMSARKO Market Price Distribution")
-                    st.line_chart(df_prices['Price'])
-                    buffer, report_df = save_smsarko_report_excel(smsarko_property, smsarko_selected_governorate, smsarko_selected_city,
-                                                                  metrics, smsarko_default_sub)
-                    if buffer is not None:
-                        st.download_button(
-                            label=f"📥 Download SMSARKO {smsarko_property} Report",
-                            data=buffer,
-                            file_name="smsarko_report.xlsx",
-                            mime="application/vnd.ms-excel"
+                else:
+                    metrics = calculate_metrics(data)
+                    if metrics:
+                        st.subheader("Final Report Generation")
+                        st.metric("Average Price", f"{metrics.get('avg_price', 0):,.0f} EGP")
+                        st.metric("Average Area", f"{metrics.get('avg_area', 0):,.2f} m²")
+                        df_prices = pd.DataFrame(data, columns=['Price', 'Area'])
+
+                        st.subheader("📈 SMSARKO Market Price Distribution")
+                        st.line_chart(df_prices['Price'])
+
+                        smsarko_default_sub = "غير محدد"
+
+                        buffer, report_df = save_smsarko_report_excel(
+                            smsarko_property,
+                            smsarko_selected_governorate,
+                            smsarko_selected_city,
+                            metrics,
+                            smsarko_default_sub
                         )
-                        st.write("### Current SMSARKO Data (Saved in smsarko_report.xlsx)")
-                        st.dataframe(report_df)
-                        st.session_state["smsarko_report_df"] = report_df
-                        st.session_state["smsarko_metrics"] = metrics
-                        st.session_state["smsarko_governorate"] = smsarko_selected_governorate
-                        st.session_state["smsarko_city"] = smsarko_selected_city
-                        st.session_state["smsarko_asset_sub"] = smsarko_default_sub
+
+                        if buffer is not None:
+                            st.download_button(
+                                label=f"📥 Download SMSARKO {smsarko_property} Report",
+                                data=buffer,
+                                file_name="smsarko_report.xlsx",
+                                mime="application/vnd.ms-excel"
+                            )
+                            st.write("### SMSARKO Report Data")
+                            st.dataframe(report_df)
+
+                            # Store in session_state
+                            st.session_state["smsarko_report_df"] = report_df
+                            st.session_state["smsarko_metrics"] = metrics
+                            st.session_state["smsarko_governorate"] = smsarko_selected_governorate
+                            st.session_state["smsarko_city"] = smsarko_selected_city
+                            st.session_state["smsarko_asset_sub"] = smsarko_default_sub
+
         if "smsarko_report_df" in st.session_state:
             if st.button("🔄 Update Asset Values (SMSARKO)"):
                 with st.spinner("Updating SMSARKO assets in database..."):
                     metrics = st.session_state["smsarko_metrics"]
                     selected_governorate = st.session_state["smsarko_governorate"]
                     selected_city = st.session_state["smsarko_city"]
+                    asset_sub = st.session_state["smsarko_asset_sub"]
+
                     excel_data = {
                         'asset_type_desc': 'أراضي' if smsarko_property_value == "lands-for-sale" else 'عقارات',
-                        'asset_sub_type': smsarko_default_sub,
+                        'asset_sub_type': asset_sub,
                         'governorate_name': arabic_names.get(selected_governorate, selected_governorate),
                         'section_name': convert_to_arabic(selected_city, lowercase_lookup=True),
                         'price_per_m2': metrics.get('avg_price_per_m2', 0),
                         'rent_per_m2': metrics.get('avg_price_per_m2', 0) / (12 * 20)
                     }
+
                     matching_assets = fetch_all_matching_assets_by_keys(
                         excel_data['asset_type_desc'],
                         excel_data['asset_sub_type'],
                         excel_data['governorate_name'],
                         excel_data['section_name']
                     )
+
                     if matching_assets and len(matching_assets) > 0:
-                        st.write(f"Found {len(matching_assets)} matching SMSARKO assets to update")
-                        result = process_assets_batch(matching_assets,
-                                                      excel_data['price_per_m2'],
-                                                      excel_data['rent_per_m2'])
+                        st.write(f"🔍 Found {len(matching_assets)} matching SMSARKO assets to update")
+                        result = process_assets_batch(
+                            matching_assets,
+                            excel_data['price_per_m2'],
+                            excel_data['rent_per_m2']
+                        )
                         if result:
                             st.success(f"✅ Updated {result['updated']} SMSARKO assets in database")
                         else:
                             st.error("❌ Failed to update SMSARKO assets")
                     else:
-                        st.warning("No SMSARKO assets found for the selected criteria.")
-
+                        st.warning("⚠️ No matching assets found for the selected criteria.")
 
         # ------------------ Aqarmap SECTION ------------------
 
@@ -1590,6 +1665,7 @@ def main():
                     return
                 metrics = calculate_metrics(data)
                 if metrics:
+                    st.subheader("Final Report Generation")
                     st.metric("Average Price", f"{metrics.get('avg_price', 0):,.0f} EGP")
                     st.metric("Average Area", f"{metrics.get('avg_area', 0):,.2f} m²")
                     df_prices = pd.DataFrame(data, columns=['Price', 'Area'])
@@ -1651,7 +1727,6 @@ def main():
 
     BASE_PATH = r"C:\Users\edge-t\Desktop\Edge Pro\cama_web_scrappin\housing sf"
     st.markdown("---")
-    st.subheader("Final Report Generation")
     if all(key in st.session_state for key in ["dubizzle_report_df", "smsarko_report_df", "aqarmap_report_df"]):
         if st.button("✨ Generate Final Report"):
             with st.spinner("Processing final report..."):
