@@ -1356,7 +1356,7 @@ def main():
         </div>
     """, unsafe_allow_html=True)
 
-    source_options = ["Dubizzle", "SMSARKO", "Aqarmap"]
+    source_options = ["Dubizzle", "Smsarko", "Aqarmap"]
     selected_source = st.radio("Select Data Source:", source_options)
 
     # ------------------ Dubizzle SECTION ------------------
@@ -1449,7 +1449,7 @@ def main():
         if default_sub_type != "غير محدد" and selected_sub_type in filter_mapping.get(url_type, {}):
             filter_code = filter_mapping[url_type][selected_sub_type]
             url = f"{base_url}?filter={filter_code}"
-        st.write("Using URL:", url)
+        # st.write("Using URL:", url)
         if st.button("📊 Analyze Market Prices (Dubizzle)"):
             with st.spinner("Scraping Dubizzle market data..."):
                 data = scrape_property_data(url,
@@ -1531,7 +1531,7 @@ def main():
 
 
    # ------------------ SMSARKO SECTION ------------------
-    if selected_source == "SMSARKO":
+    if selected_source == "Smsarko":
         st.subheader("📊 SMSARKO Scraping Settings")
 
         smsarko_property = st.selectbox("🏠 Select SMSARKO property type:", list(smsarko_property_types.keys()))
@@ -1549,7 +1549,7 @@ def main():
             return
 
         url = f"https://www.smsarko.com/search/{smsarko_property_value}/{city_slug}"
-        st.write("🔗 Using URL:", url)
+        # st.write("🔗 Using URL:", url)
 
         if st.button("📊 Analyze Market Prices (SMSARKO)"):
             with st.spinner("Scraping SMSARKO market data..."):
@@ -1655,7 +1655,7 @@ def main():
         base_url = f"https://aqarmap.com.eg/en/for-sale/{aqarmap_property_value}/{aqarmap_governorate_slug}/{aqarmap_city_slug}/"
 
 
-        st.write("Using URL:", base_url)
+        # st.write("Using URL:", base_url)
 
         if st.button("📊 Analyze Market Prices (Aqarmap)"):
             with st.spinner("Scraping Aqarmap market data..."):
@@ -1833,6 +1833,6 @@ def main():
                     st.success(f"✅ Updated {total_updated} assets from Final Report in the database")
                 else:
                     st.warning("No matching assets found for Final Report update.")
-
+ 
 if __name__ == "__main__":
     main()
