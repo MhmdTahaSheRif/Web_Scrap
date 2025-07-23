@@ -13,6 +13,7 @@ import time
 from io import BytesIO
 from datetime import date
 import requests
+import base64
 
 
 arabic_names = {
@@ -344,10 +345,6 @@ arabic_names = {
     "Commercial": "عقارات",
 }
 
-
-
-
-
 filter_mapping = {
     "apartments-duplex-for-sale": {
         "وحدة سكنية": "type_eq_1",
@@ -383,7 +380,6 @@ ASSET_SUB_TYPE_MAPPING = {
 }
 
 # ------------------ SMSARKO MAPPINGS ------------------
-
 smsarko_property_types = {
       "شقق": "apartments-for-sale",
     "فيلات": "villas-for-",
@@ -422,20 +418,12 @@ filter_mapping_smsarko = {
     }
 }
 
-
-
 #لسااااااااا
 smsarko_asset_sub_mapping = {
     "apartments-for-sale": ["غرفة", "وحدة سكنية"],
     "commercial-for-sale": ["وحدة إدارية", "مبني اداري", "محل تجاري", "جراج", "مول تجاري", "مول تجاري وجراج", "مخبز", "وحدة طبية", "مبنى خدمي", "فندق", "فندق عائم", "مطعم", "مطعم عائم", "قاعة مناسبات", "جبانات"],
     "lands-for-sale": ["مبني سكني", "مبني"]
 }
-
-
-
-
-
-
 
 smsarko_governorates = {
             "محافظه اسوان": "aswan",
@@ -466,11 +454,6 @@ smsarko_governorates = {
     "محافظه كفر الشيخ": "kafr-el-shikh",
     "محافظه مطروح": "matroh"
         }
-
-
-
-
-
 
 smsarko_location_dict = {
     "Alexandria": "محافظه الاسكندريه",
@@ -785,14 +768,13 @@ smsarko_location_dict = {
     "Commercial": "عقارات",
 }
 
-
 # ------------------ AQARMAP MAPPINGS ------------------
-
 aqarmap_property_types = {
     "Commercial": "commercial",
     "Apartment": "apartment",
     "Land or Farm": "land-or-farm"
 }
+
 filter_mapping_smsarko = {
     "apartments-for-sale": {
         "وحدة سكنية": "type_eq_1",
@@ -899,7 +881,6 @@ aqarmap_governorates = {
               "Markaz Sohag", "Monsha'a", "New Sohag", "Sakaltah", "Tahta", "Tama"],
 }
 
-
 def setup_driver():
     chrome_path = r'C:\Users\edge-t\appdata\roaming\undetected_chromedriver\undetected_chromedriver.exe'
 
@@ -940,7 +921,6 @@ def setup_driver():
 
     return driver
 
-
 def extract_number(text, min_val, max_val):
     cleaned = re.sub(r"[^\d.]", "", text)
     cleaned = cleaned.replace('²', '')
@@ -954,7 +934,6 @@ def extract_number(text, min_val, max_val):
     return None
 
 # ------------------ SCRAPING FUNCTIONS ------------------
-
 def get_listing_elements(driver):
     candidate_xpaths = [
         "//div[contains(@class, '_357a9937')]",
@@ -1038,8 +1017,6 @@ def scrape_smsarko_data(url):
     finally:
         driver.quit()
 
-
-
 def scrape_aqarmap_data(url):
     driver = setup_driver() 
     property_data = []
@@ -1095,7 +1072,6 @@ def scrape_aqarmap_data(url):
     finally:
         driver.quit()
 
-
 # imp    (done)
 def calculate_metrics(data):
     if not data:
@@ -1112,7 +1088,6 @@ def calculate_metrics(data):
     }
 
 # ------------------ REPORTS SAVEEE FUNCTIONS ------------------
-
 def save_report_excel(property_type, governorate, city, metrics, selected_sub_type):
     default_sub_type = selected_sub_type if selected_sub_type and selected_sub_type.strip() != "" else "غير محدد"
     governorate_arabic = arabic_names.get(governorate, governorate)
@@ -1171,7 +1146,6 @@ def save_smsarko_report_excel(property_type, governorate, city, metrics, selecte
     buffer.seek(0)
     return buffer, report_df
 
-
 def save_aqarmap_report_excel(property_type, governorate, city, metrics, selected_sub_type):
     default_sub_type = selected_sub_type if selected_sub_type and selected_sub_type.strip() != "" else "غير محدد"
     property_type_arabic = convert_to_arabic(property_type)
@@ -1205,11 +1179,7 @@ def save_aqarmap_report_excel(property_type, governorate, city, metrics, selecte
     buffer.seek(0)
     return buffer, report_df
 
-
-
-
 # ------------------ DATABASE  ------------------ ✔️✔️✔️✔️✔️ DONEEEEEEE
-
 def get_db_connection():
     conn_str = (
         'DRIVER={SQL Server};'
@@ -1225,7 +1195,6 @@ def get_db_connection():
     except pyodbc.Error as e:
         st.error(f"Failed to connect to SQL Server: {e}")
         return None
-
 
 def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, governorate_name, section_name):
     conn = get_db_connection()
@@ -1262,7 +1231,6 @@ def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, gove
         return None
     finally:
         conn.close()
-
 
 def process_assets_batch(assets, price_per_m2, rent_per_m2):
     conn = get_db_connection()
@@ -1313,11 +1281,6 @@ def convert_to_arabic(name, lowercase_lookup=False):
     key = name.lower() if lowercase_lookup else name
     return arabic_names.get(key, name)
 
-
-
-
-
-
 @st.cache_data
 def fetch_smsarko_cities(governorate_slug):
     base_url = "https://www.smsarko.com/api/v1/locations/level2/"
@@ -1330,11 +1293,7 @@ def fetch_smsarko_cities(governorate_slug):
     else:
         return {}
 
-
 # -------------------------------------------------------
-
-
-import base64
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -1359,8 +1318,7 @@ def main():
     source_options = ["Dubizzle", "Smsarko", "Aqarmap"]
     selected_source = st.radio("Select Data Source:", source_options)
 
-    # ------------------ Dubizzle SECTION ------------------
-
+   # ------------------ Dubizzle SECTION ------------------
     if selected_source == "Dubizzle":
         st.subheader("Dubizzle Scraping Settings")
 
@@ -1528,8 +1486,6 @@ def main():
                     else:
                         st.warning("No Dubizzle assets found for the selected criteria.")
 
-
-
    # ------------------ SMSARKO SECTION ------------------
     if selected_source == "Smsarko":
         st.subheader("📊 SMSARKO Scraping Settings")
@@ -1634,6 +1590,7 @@ def main():
 
         # ------------------ Aqarmap SECTION ------------------
 
+   # ------------------ Aqarmap SECTION ------------------
     elif selected_source == "Aqarmap":
         st.subheader("Aqarmap Scraping Settings")
 
