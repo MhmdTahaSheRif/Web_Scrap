@@ -15,7 +15,6 @@ from datetime import date
 import requests
 import base64
 
-
 arabic_names = {
     "قسم بنى سويف الجديده" : "قسم مدينه بنى سويف الجديده",
     "قسم شرطه التجمع الخامس" : "قسم اول القاهره الجديده",
@@ -123,7 +122,6 @@ arabic_names = {
     "Atssa": "مركز اطسا",
     "Fayoum City": "قسم اول الفيوم",
     "Fayoum Center": "مركز الفيوم",
-    "Ibshway": "مركز ابشواى",
     "New Fayoum": "مدينه الفيوم الجديده",
     "Sinnuras": "مركز سنورس",
     "Tamiya": "مركز طاميه",
@@ -388,6 +386,7 @@ smsarko_property_types = {
     "اراضي" : "lands-for-sale",
     "اخري" : "other-for-sale"
 }
+
 #  https://www.smsarko.com/search/apartments-for-sale/alexandria-port-police-department
 
 filter_mapping_smsarko = {
@@ -1195,7 +1194,6 @@ def get_db_connection():
     except pyodbc.Error as e:
         st.error(f"Failed to connect to SQL Server: {e}")
         return None
-
 def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, governorate_name, section_name):
     conn = get_db_connection()
     if not conn:
@@ -1205,14 +1203,31 @@ def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, gove
     section_name_ar = arabic_names.get(section_name, section_name)
 
     query = """
-    SELECT a.asset_id, a.final_area_m2, a.ASSET_TYPE_DESC, 
-           a.ASSET_SUB_TYPE_DESC, a.GOVERNORATE_NAME, a.SECTION_NAME
-    FROM dbo.v_assets_aream2 a
+     SELECT 
+    a.asset_id, 
+    a.final_area_m2, 
+    a.ASSET_TYPE_DESC, 
+    a.ASSET_SUB_TYPE_DESC, 
+    a.GOVERNORATE_NAME, 
+    a.SECTION_NAME,
+    
+    ISNULL(
+        CASE 
+            WHEN AGR_AREA_Q IS NULL AND AGR_AREA_S IS NULL AND AGR_AREA_F IS NULL 
+                THEN AREA_M2
+            ELSE 
+                ISNULL(AGR_AREA_F, 0) * 4200 + 
+                ISNULL(CAST(AGR_AREA_Q AS decimal(18,2)), 0) * (4200.0 / 24) + 
+                ISNULL(AGR_AREA_S, 0) * (4200.0 / 576)
+        END, 
+    0) AS Calc_AreaM2
+FROM dbo.v_assets_aream2 a
     WHERE LOWER(LTRIM(RTRIM(a.ASSET_TYPE_DESC))) = LOWER(?)
       AND LOWER(LTRIM(RTRIM(a.ASSET_SUB_TYPE_DESC))) = LOWER(?)
       AND LOWER(LTRIM(RTRIM(a.GOVERNORATE_NAME))) = LOWER(?)
       AND LOWER(LTRIM(RTRIM(a.SECTION_NAME))) = LOWER(?)
     """
+
     try:
         cursor = conn.cursor()
         st.write("جاري البحث عن الأصول بالمفاتيح التالية:")
@@ -1224,13 +1239,22 @@ def fetch_all_matching_assets_by_keys(asset_type_desc, asset_sub_type_desc, gove
         cursor.execute(query, (asset_type_desc, asset_sub_type_desc, governorate_name_ar, section_name_ar))
         results = cursor.fetchall()
 
-        st.write("تم العثور على", len(results), "أصل مطابق في العرض.")
+        total_area = sum([row.Calc_AreaM2 for row in results])
+        value_per_meter = 100  
+        total_value = total_area * value_per_meter
+
+        st.write("تم العثور على", len(results), "أصل مطابق.")
+        st.write("إجمالي المساحة بالمتر المربع:", total_area)
+        st.write("القيمة الكلية بعد الضرب:", total_value)
+
         return results
+
     except Exception as e:
         st.error(f"حدث خطأ أثناء جلب الأصول بالمفاتيح: {e}")
         return None
     finally:
         conn.close()
+
 
 def process_assets_batch(assets, price_per_m2, rent_per_m2):
     conn = get_db_connection()
@@ -1256,25 +1280,31 @@ def process_assets_batch(assets, price_per_m2, rent_per_m2):
             params = []
             for asset in batch:
                 asset_id = asset[0]
-                final_area_m2 = float(asset[1]) if asset[1] is not None else 100.0
-                site_marketing_value = final_area_m2 * float(price_per_m2)
-                site_monthly_value = final_area_m2 * float(rent_per_m2)
+                calc_area_m2 = float(asset[6]) if asset[6] is not None else 0.0 
+
+                site_marketing_value = calc_area_m2 * float(price_per_m2)
+                site_monthly_value = calc_area_m2 * float(rent_per_m2)
+
                 params.append((site_monthly_value, site_marketing_value, current_date, asset_id))
                 processed_count['updated'] += 1
+
             cursor.executemany(update_query, params)
             conn.commit()
             progress = (i + len(batch)) / total_assets
             st_progress_container.progress(progress)
             st_progress_container.write(f"Updated {i + len(batch)} of {total_assets} assets")
             time.sleep(0.05)
+
         st.success(f"Successfully updated {processed_count['updated']} assets")
         return processed_count
+
     except Exception as e:
         st.error(f"Database operation failed: {str(e)}")
         conn.rollback()
         return None
     finally:
         conn.close()
+
 
 def convert_to_arabic(name, lowercase_lookup=False):
 
@@ -1315,7 +1345,7 @@ def main():
         </div>
     """, unsafe_allow_html=True)
 
-    source_options = ["Dubizzle", "Smsarko", "Aqarmap"]
+    source_options = ["Dubizzle","Aqarmap","Smsarko"]
     selected_source = st.radio("Select Data Source:", source_options)
 
    # ------------------ Dubizzle SECTION ------------------
@@ -1678,10 +1708,7 @@ def main():
                     else:
                         st.warning("No Aqarmap assets found for the selected criteria.")
 
-
     # --- Create final report excel sheet ---
-
-
     BASE_PATH = r"C:\Users\edge-t\Desktop\Edge Pro\cama_web_scrappin\housing sf"
     st.markdown("---")
     if all(key in st.session_state for key in ["dubizzle_report_df", "smsarko_report_df", "aqarmap_report_df"]):

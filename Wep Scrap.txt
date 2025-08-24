@@ -2,8 +2,7 @@
    onpowershell
 
 
-cd C:\Users\edge-t\Downloads\ngrok-v3-stable-windows-amd64
-.\ngrok http 8501
+
 
 
 
